@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>death</title>
   <link rel="icon" href="favicon.png">
-
   <meta name="description" content="cestlamorte — launch pending." />
 
+  <!-- Fuente seria y minimalista para el título -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -19,17 +20,18 @@
       --border: #111;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; }
 
     body {
       background: radial-gradient(circle at top, var(--bg-soft), var(--bg));
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
       letter-spacing: .3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
     }
 
     /* TOP BAR */
@@ -43,16 +45,16 @@
       font-size: .75rem;
       color: var(--dim);
       border-bottom: 1px solid var(--border);
+      z-index: 1;
     }
 
     /* CENTER */
-    .center {
-      text-align: center;
-    }
+    .center { text-align: center; z-index: 1; }
 
     h1 {
+      font-family: 'Share Tech Mono', 'JetBrains Mono', monospace;
       font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 300;
+      font-weight: 400;
       letter-spacing: 6px;
     }
 
@@ -63,34 +65,12 @@
     }
 
     /* COUNTDOWN */
-    .countdown {
-      margin-top: 40px;
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-    }
+    .countdown { margin-top: 40px; display: flex; justify-content: center; gap: 40px; }
+    .time { text-align:center; }
+    .num { font-size: 1.8rem; font-weight:400; }
+    .label { margin-top:6px; font-size:.65rem; color: var(--dim); }
 
-    .time {
-      text-align: center;
-    }
-
-    .num {
-      font-size: 1.8rem;
-      font-weight: 400;
-    }
-
-    .label {
-      margin-top: 6px;
-      font-size: .65rem;
-      color: var(--dim);
-    }
-
-    footer {
-      position: fixed;
-      bottom: 30px;
-      font-size: .65rem;
-      color: #555;
-    }
+    footer { position: fixed; bottom:30px; font-size:.65rem; color: #555; z-index:1; }
   </style>
 </head>
 <body>
@@ -129,9 +109,8 @@
   </footer>
 
   <script>
-    // Set fixed launch date: January 13, 2026 (00:00 local time)
+    // Countdown: January 13, 2026
     const launch = new Date(2026, 0, 13, 0, 0, 0);
-
     function updateCountdown() {
       const now = new Date().getTime();
       const distance = launch - now;
@@ -151,7 +130,6 @@
       document.getElementById('minutes').textContent = String(m).padStart(2, '0');
       document.getElementById('seconds').textContent = String(s).padStart(2, '0');
     }
-
     updateCountdown();
     setInterval(updateCountdown, 1000);
   </script>
