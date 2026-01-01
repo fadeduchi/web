@@ -1,21 +1,29 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-
 const grid = 20;
 const canvasSize = 400;
 
-let player = { x: 0, y: 0, color: '#00ff99' };
-let ghost = { x: 380, y: 380, color: '#ff0000' };
-let artifacts = [];
+let player = { x: 0, y: 0, width: grid, height: grid };
+let ghost = { x: 380, y: 380, width: grid, height: grid };
 let collected = 0;
-let totalArtifacts = 3;
+const totalArtifacts = 3;
+let artifacts = [];
+
+// Sprites desde links (ejemplos libres)
+const playerImg = new Image();
+playerImg.src = 'https://i.imgur.com/2yXQ0gP.png'; // caballero pixelado
+
+const ghostImg = new Image();
+ghostImg.src = 'https://i.imgur.com/p1z2JtC.png'; // fantasma pixelado
+
+const itemImg = new Image();
+itemImg.src = 'https://i.imgur.com/Ji1v8jv.png'; // artefacto pixel
 
 // Generar artefactos
 for(let i=0;i<totalArtifacts;i++){
   artifacts.push({
     x: Math.floor(Math.random()*(canvasSize/grid))*grid,
-    y: Math.floor(Math.random()*(canvasSize/grid))*grid,
-    color: '#ffffff'
+    y: Math.floor(Math.random()*(canvasSize/grid))*grid
   });
 }
 
@@ -24,17 +32,14 @@ function draw(){
 
   // Artefactos
   artifacts.forEach(a=>{
-    ctx.fillStyle = a.color;
-    ctx.fillRect(a.x, a.y, grid, grid);
+    ctx.drawImage(itemImg, a.x, a.y, grid, grid);
   });
 
   // Player
-  ctx.fillStyle = player.color;
-  ctx.fillRect(player.x, player.y, grid, grid);
+  ctx.drawImage(playerImg, player.x, player.y, grid, grid);
 
   // Ghost
-  ctx.fillStyle = ghost.color;
-  ctx.fillRect(ghost.x, ghost.y, grid, grid);
+  ctx.drawImage(ghostImg, ghost.x, ghost.y, grid, grid);
 }
 
 // Mover fantasma hacia player
@@ -45,9 +50,8 @@ function moveGhost(){
   if(ghost.y > player.y) ghost.y -= grid;
 }
 
-// Revisar colisiones
+// Colisiones
 function checkCollision(){
-  // Player con artefactos
   for(let i=artifacts.length-1;i>=0;i--){
     if(player.x === artifacts[i].x && player.y === artifacts[i].y){
       artifacts.splice(i,1);
@@ -55,35 +59,30 @@ function checkCollision(){
     }
   }
 
-  // Player con ghost
   if(player.x === ghost.x && player.y === ghost.y){
     alert("¡Perdiste! El fantasma te atrapó.");
     resetGame();
   }
 
-  // Win
   if(collected === totalArtifacts){
     alert("¡Ganaste! Escapaste con los artefactos.");
     resetGame();
   }
 }
 
-// Resetear juego
 function resetGame(){
   player.x = 0; player.y = 0;
   ghost.x = 380; ghost.y = 380;
-  artifacts = [];
   collected = 0;
+  artifacts = [];
   for(let i=0;i<totalArtifacts;i++){
     artifacts.push({
       x: Math.floor(Math.random()*(canvasSize/grid))*grid,
-      y: Math.floor(Math.random()*(canvasSize/grid))*grid,
-      color: '#ffffff'
+      y: Math.floor(Math.random()*(canvasSize/grid))*grid
     });
   }
 }
 
-// Controles
 document.addEventListener('keydown', e=>{
   switch(e.key){
     case 'ArrowUp': case 'w': if(player.y>0) player.y -= grid; break;
@@ -96,5 +95,4 @@ document.addEventListener('keydown', e=>{
   draw();
 });
 
-// Inicial
 draw();
