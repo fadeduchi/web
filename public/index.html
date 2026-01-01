@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>death</title>
+  <link rel="icon" href="favicon.png">
+
+  <meta name="description" content="cestlamorte — launch pending." />
+
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #040404;
+      --bg-soft: #070707;
+      --text: #d0d0d0;
+      --dim: #777;
+      --border: #111;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      background: radial-gradient(circle at top, var(--bg-soft), var(--bg));
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: .3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* TOP BAR */
+    .top {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      font-size: .75rem;
+      color: var(--dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* CENTER */
+    .center {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      letter-spacing: 6px;
+    }
+
+    .subtitle {
+      margin-top: 22px;
+      font-size: .7rem;
+      color: var(--dim);
+    }
+
+    /* COUNTDOWN */
+    .countdown {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .time {
+      text-align: center;
+    }
+
+    .num {
+      font-size: 1.8rem;
+      font-weight: 400;
+    }
+
+    .label {
+      margin-top: 6px;
+      font-size: .65rem;
+      color: var(--dim);
+    }
+
+    footer {
+      position: fixed;
+      bottom: 30px;
+      font-size: .65rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top">
+    <span>cestlamorte.site</span>
+    <span>launch sequence</span>
+  </div>
+
+  <div class="center">
+    <h1>cest la morte</h1>
+    <div class="subtitle">multifunction system · no noise</div>
+
+    <div class="countdown" id="countdown">
+      <div class="time">
+        <div class="num" id="days">10</div>
+        <div class="label">days</div>
+      </div>
+      <div class="time">
+        <div class="num" id="hours">00</div>
+        <div class="label">hours</div>
+      </div>
+      <div class="time">
+        <div class="num" id="minutes">00</div>
+        <div class="label">minutes</div>
+      </div>
+      <div class="time">
+        <div class="num" id="seconds">00</div>
+        <div class="label">seconds</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    nothing to access yet
+  </footer>
+
+  <script>
+    // Set fixed launch date: January 13, 2026 (00:00 local time)
+    const launch = new Date(2026, 0, 13, 0, 0, 0);
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = launch - now;
+
+      if (distance <= 0) {
+        document.getElementById('countdown').innerHTML = '<div class="subtitle">system unlocked</div>';
+        return;
+      }
+
+      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const h = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((distance / (1000 * 60)) % 60);
+      const s = Math.floor((distance / 1000) % 60);
+
+      document.getElementById('days').textContent = d;
+      document.getElementById('hours').textContent = String(h).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
