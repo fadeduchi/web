@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content="⛧" property="og:title">
+<meta content="" property="og:description">
+<meta content="images/fukk.png" property="og:image">
+<meta content="#5c030a" data-react-helmet="true" name="theme-color">
+<link rel="icon" type="image/x-icon" href="images/sigil.png">
+<title>uncensorable</title>
+<link rel="stylesheet" href="css/main.css">
+<style>
+@font-face { font-family: 'Help Me'; src: url('fonts/HelpMe.ttf') format('truetype'); }
+@font-face { font-family: 'Cityburn'; src: url('fonts/cityburn.ttf') format('truetype'); }
+@font-face { font-family: 'artifact'; src: url('assets/fonts/artifact.ttf') format('truetype'); }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(150px);
+  transition: opacity 2s ease, transform 2s ease-out;
+  position: relative;
+  z-index: 10;
+}
+
+.container.reveal { opacity: 1; transform: translateY(0); }
+.container.fade-out { opacity: 0 !important; pointer-events: none; }
+
+.container a { text-decoration: none; color: #6f0000; cursor: pointer; transition: 0.3s; }
+.container a:hover { text-decoration: underline; color: #6f0000; }
+.container a.main-title { margin-bottom: 25px; }
+.container a.main-title:hover { text-decoration: none; }
+
+.container a.main-title h1 {
+  font-size: 4rem;
+  margin: 0;
+  animation: eerie-float 6s ease-in-out infinite, glitch-flicker 10s infinite;
+}
+
+@keyframes eerie-float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes float-centered {
+  0% { transform: translateX(-50%) translateY(0px); }
+  50% { transform: translateX(-50%) translateY(-15px); }
+  100% { transform: translateX(-50%) translateY(0px); }
+}
+
+@keyframes glitch-flicker {
+  0%, 3%, 5%, 42%, 44%, 100% { opacity: 1; }
+  1% { opacity: 0.4; }
+  2% { opacity: 0.9; }
+  4% { opacity: 0.1; }
+  43% { opacity: 0.3; }
+  43.5% { opacity: 0.8; }
+}
+
+.social-link h { font-size: 2rem; margin: 0; }
+
+.door-wrapper {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 140px;
+  height: 240px;
+  perspective: 1000px;
+  z-index: 100;
+  opacity: 0;
+  text-decoration: none;
+  transform: translate3d(35vw, -50%, 0) scale(1);
+  will-change: transform, opacity;
+  transition: transform 2s ease-in-out, opacity 2s ease;
+}
+
+.door-wrapper.reveal { opacity: 1; }
+.door-wrapper.centering { transform: translate3d(-50%, -50%, 0) scale(1); }
+.door-wrapper.entering {
+  transition: transform 4.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform: translate3d(-50%, -50%, 0) scale(35) !important;
+}
+
+.door-wrapper.entering .door-frame,
+.door-wrapper.entering .door,
+.door-wrapper.entering .door::after { box-shadow: none !important; }
+
+.door-wrapper.centering .door-text,
+.door-wrapper.entering .door-text {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  display: none;
+}
+
+.door-text {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  width: 300px;
+  text-align: center;
+  color: #6f0000;
+  font-family: 'Cityburn', sans-serif;
+  font-size: 2.5rem;
+  pointer-events: none;
+  animation: float-centered 7s ease-in-out infinite, glitch-flicker 8s infinite;
+  text-shadow: 0 0 5px #000;
+}
+
+.door-frame {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  border: 2px solid #6f0000;
+  box-shadow: 0 0 15px rgba(111, 0, 0, 0.3);
+  position: relative;
+  background: black;
+  backface-visibility: hidden;
+}
+
+.door {
+  width: 100%;
+  height: 100%;
+  background-color: #0a0000;
+  border: 1px solid #6f0000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: left;
+  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  backface-visibility: hidden;
+}
+
+.door-wrapper.opening .door {
+  transform: rotateY(-110deg) !important;
+  transition: transform 4.15s linear !important;
+}
+
+.door::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background-color: #6f0000;
+  border-radius: 50%;
+  margin-right: 15px;
+  box-shadow: 0 0 5px #6f0000;
+}
+
+.door-wrapper:not(.centering):not(.entering):hover .door {
+  transform: rotateY(-40deg);
+}
+
+#overlay { transition: opacity 1.5s ease; }
+
+#pentagram {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 150px;
+  color: #6f0000;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 1.5s ease-in, opacity 1.5s ease-in;
+  opacity: 1;
+  will-change: transform, opacity;
+}
+
+#pentagram.zoom {
+  transform: translate(-50%, -50%) scale(300);
+  opacity: 0;
+}
+</style>
+</head>
+<body>
+
+<div id="pentagram">⛧</div>
+
+<div class="overlay" id="overlay">
+  <div class="proceed-button" onclick="enterSite()">click 2 enter hell</div>
+</div>
+
+<div class="container">
+  <a href="https://e.rich/sad" class="main-title">
+    <h1>faded</h1>
+  </a>
+
+  <a href="https://tiktok.com/@fzu" target="_blank" class="social-link"><h><center>tiktok</center></h></a>
+  <a href="https://instagram.com/delinquencystar" target="_blank" class="social-link"><h><center>instagram</center></h></a>
+  <a href="https://www.roblox.com/users/2556296906/profile" target="_blank" class="social-link"><h><center>roblox</center></h></a>
+  <a href="https://discord.com/users/1331038083419734213" target="_blank" class="social-link"><h><center>discord</center></h></a>
+</div>
+
+<a class="door-wrapper" href="/library" onclick="transitionToLibrary(event)">
+  <div class="door-text">the library</div>
+  <div class="door-frame"><div class="door"></div></div>
+</a>
+
+<div id="clock"></div>
+
+<script>
+var bgMusic = null;
+var doorAudio = new Audio('door.mp3');
+
+function playMusic() {
+  if (!bgMusic) {
+    bgMusic = new Audio('song.mp3');
+    bgMusic.loop = true;
+    bgMusic.volume = 1.0;
+  }
+  bgMusic.play().catch(e => console.log('Audio play failed:', e));
+}
+
+function enterSite() {
+  playMusic();
+  var overlay = document.getElementById('overlay');
+  overlay.style.opacity = '0';
+  overlay.style.pointerEvents = 'none';
+
+  var pent = document.getElementById('pentagram');
+  pent.classList.add('zoom');
+
+  var container = document.querySelector('.container');
+  var door = document.querySelector('.door-wrapper');
+
+  setTimeout(() => container.classList.add('reveal'), 200);
+  setTimeout(() => door.classList.add('reveal'), 500);
+
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    pent.style.display = 'none';
+  }, 2000);
+}
+
+function transitionToLibrary(event) {
+  event.preventDefault();
+
+  if (bgMusic) {
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+  }
+
+  var container = document.querySelector('.container');
+  container.classList.add('fade-out');
+
+  var doorWrapper = document.querySelector('.door-wrapper');
+  doorWrapper.classList.add('centering');
+
+  doorAudio.load();
+
+  setTimeout(function() {
+    doorAudio.volume = 1.0;
+    var playPromise = doorAudio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(error => console.log('Audio playback failed:', error));
+    }
+
+    doorWrapper.classList.add('entering');
+    doorWrapper.classList.add('opening');
+
+    setTimeout(() => window.location.href = 'library.html', 4150);
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
