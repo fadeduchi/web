@@ -1,272 +1,239 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta content="⛧" property="og:title">
-<meta content="" property="og:description">
-<meta content="images/fukk.png" property="og:image">
-<meta content="#5c030a" data-react-helmet="true" name="theme-color">
-<link rel="icon" type="image/x-icon" href="images/sigil.png">
-<title>uncensorable</title>
-<link rel="stylesheet" href="css/main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emiliano System</title>
+
 <style>
-@font-face { font-family: 'Help Me'; src: url('fonts/HelpMe.ttf') format('truetype'); }
-@font-face { font-family: 'Cityburn'; src: url('fonts/cityburn.ttf') format('truetype'); }
-@font-face { font-family: 'artifact'; src: url('assets/fonts/artifact.ttf') format('truetype'); }
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  opacity: 0;
-  transform: translateY(150px);
-  transition: opacity 2s ease, transform 2s ease-out;
-  position: relative;
-  z-index: 10;
-}
-
-.container.reveal { opacity: 1; transform: translateY(0); }
-.container.fade-out { opacity: 0 !important; pointer-events: none; }
-
-.container a { text-decoration: none; color: #6f0000; cursor: pointer; transition: 0.3s; }
-.container a:hover { text-decoration: underline; color: #6f0000; }
-.container a.main-title { margin-bottom: 25px; }
-.container a.main-title:hover { text-decoration: none; }
-
-.container a.main-title h1 {
-  font-size: 4rem;
-  margin: 0;
-  animation: eerie-float 6s ease-in-out infinite, glitch-flicker 10s infinite;
-}
-
-@keyframes eerie-float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
-}
-
-@keyframes float-centered {
-  0% { transform: translateX(-50%) translateY(0px); }
-  50% { transform: translateX(-50%) translateY(-15px); }
-  100% { transform: translateX(-50%) translateY(0px); }
-}
-
-@keyframes glitch-flicker {
-  0%, 3%, 5%, 42%, 44%, 100% { opacity: 1; }
-  1% { opacity: 0.4; }
-  2% { opacity: 0.9; }
-  4% { opacity: 0.1; }
-  43% { opacity: 0.3; }
-  43.5% { opacity: 0.8; }
-}
-
-.social-link h { font-size: 2rem; margin: 0; }
-
-.door-wrapper {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  width: 140px;
-  height: 240px;
-  perspective: 1000px;
-  z-index: 100;
-  opacity: 0;
-  text-decoration: none;
-  transform: translate3d(35vw, -50%, 0) scale(1);
-  will-change: transform, opacity;
-  transition: transform 2s ease-in-out, opacity 2s ease;
-}
-
-.door-wrapper.reveal { opacity: 1; }
-.door-wrapper.centering { transform: translate3d(-50%, -50%, 0) scale(1); }
-.door-wrapper.entering {
-  transition: transform 4.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  transform: translate3d(-50%, -50%, 0) scale(35) !important;
-}
-
-.door-wrapper.entering .door-frame,
-.door-wrapper.entering .door,
-.door-wrapper.entering .door::after { box-shadow: none !important; }
-
-.door-wrapper.centering .door-text,
-.door-wrapper.entering .door-text {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  display: none;
-}
-
-.door-text {
-  position: absolute;
-  top: -80px;
-  left: 50%;
-  width: 300px;
-  text-align: center;
-  color: #6f0000;
-  font-family: 'Cityburn', sans-serif;
-  font-size: 2.5rem;
-  pointer-events: none;
-  animation: float-centered 7s ease-in-out infinite, glitch-flicker 8s infinite;
-  text-shadow: 0 0 5px #000;
-}
-
-.door-frame {
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  border: 2px solid #6f0000;
-  box-shadow: 0 0 15px rgba(111, 0, 0, 0.3);
-  position: relative;
-  background: black;
-  backface-visibility: hidden;
-}
-
-.door {
-  width: 100%;
-  height: 100%;
-  background-color: #0a0000;
-  border: 1px solid #6f0000;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform-origin: left;
-  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  backface-visibility: hidden;
-}
-
-.door-wrapper.opening .door {
-  transform: rotateY(-110deg) !important;
-  transition: transform 4.15s linear !important;
-}
-
-.door::after {
-  content: '';
-  width: 12px;
-  height: 12px;
-  background-color: #6f0000;
-  border-radius: 50%;
-  margin-right: 15px;
-  box-shadow: 0 0 5px #6f0000;
-}
-
-.door-wrapper:not(.centering):not(.entering):hover .door {
-  transform: rotateY(-40deg);
-}
-
-#overlay { transition: opacity 1.5s ease; }
-
-#pentagram {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  font-size: 150px;
-  color: #6f0000;
-  pointer-events: none;
-  z-index: 10000;
-  transition: transform 1.5s ease-in, opacity 1.5s ease-in;
-  opacity: 1;
-  will-change: transform, opacity;
-}
-
-#pentagram.zoom {
-  transform: translate(-50%, -50%) scale(300);
-  opacity: 0;
-}
+*{box-sizing:border-box}
+body{margin:0;background:#000;font-family:Consolas,monospace;color:#ddd}
+.container{display:flex;gap:12px;padding:12px}
+.window{width:50%;background:#0b0b0b;border:1px solid #222;border-radius:6px;overflow:hidden}
+.titlebar{background:#0f0f0f;padding:6px 10px;font-size:12px;color:#888;border-bottom:1px solid #222}
+.terminal{height:280px;overflow-y:auto;padding:12px;font-size:13px;scroll-behavior:smooth}
+.line{margin:2px 0;opacity:0;animation:fadeIn .2s forwards}
+@keyframes fadeIn{to{opacity:1}}
+.green{color:#00ff99}.red{color:#ff4d4d}.gray{color:#777}
+.controls{padding:12px;border-top:1px solid #111}
+input{width:100%;padding:8px;margin-bottom:6px;background:#000;border:1px solid #222;color:#fff}
+button{width:100%;padding:9px;background:#111;color:#fff;border:1px solid #222;cursor:pointer}
+button:hover{background:#fff;color:#000}
+.options{font-size:12px;margin-bottom:6px}
+.options label{display:block;opacity:0.6;cursor:pointer}
+.options input{width:auto;margin-right:5px}
+.toggle{font-size:12px;margin-top:6px;opacity:0.5;cursor:pointer}
+.comboBox{display:none;margin-top:5px}
 </style>
 </head>
 <body>
 
-<div id="pentagram">⛧</div>
-
-<div class="overlay" id="overlay">
-  <div class="proceed-button" onclick="enterSite()">click 2 enter hell</div>
-</div>
-
 <div class="container">
-  <a href="https://e.rich/sad" class="main-title">
-    <h1>faded</h1>
-  </a>
 
-  <a href="https://tiktok.com/@fzu" target="_blank" class="social-link"><h><center>tiktok</center></h></a>
-  <a href="https://instagram.com/delinquencystar" target="_blank" class="social-link"><h><center>instagram</center></h></a>
-  <a href="https://www.roblox.com/users/2556296906/profile" target="_blank" class="social-link"><h><center>roblox</center></h></a>
-  <a href="https://discord.com/users/1331038083419734213" target="_blank" class="social-link"><h><center>discord</center></h></a>
+<div class="window">
+  <div class="titlebar">C:\\generator.exe</div>
+  <div class="terminal" id="genTerm"></div>
+  <div class="controls">
+    <input id="genAmount" placeholder="amount">
+    <input id="genLength" placeholder="length">
+
+    <div class="options">
+      <label><input type="checkbox" id="optWords" onclick="toggleWordOptions()"> english words</label>
+      <div class="comboBox" id="comboBox">
+        <label><input type="checkbox" id="optCombo"> word combos</label>
+      </div>
+      <label><input type="checkbox" id="optNumbers"> numbers</label>
+      <label><input type="checkbox" id="optUnderscore"> underscore</label>
+      <label><input type="checkbox" id="optLeet"> leetspeak</label>
+    </div>
+
+    <button onclick="runGen()">run</button>
+    <div class="toggle" onclick="toggleFarm()">auto farm: OFF</div>
+  </div>
 </div>
 
-<a class="door-wrapper" href="/library" onclick="transitionToLibrary(event)">
-  <div class="door-text">the library</div>
-  <div class="door-frame"><div class="door"></div></div>
-</a>
+<div class="window">
+  <div class="titlebar">C:\\checker.exe</div>
+  <div class="terminal" id="checkTerm"></div>
+  <div class="controls">
+    <input id="checkList" placeholder="user1,user2">
+    <button onclick="runCheck()">check</button>
+    <button onclick="downloadValid()">save valid</button>
+  </div>
+</div>
 
-<div id="clock"></div>
+</div>
 
 <script>
-var bgMusic = null;
-var doorAudio = new Audio('door.mp3');
+let wordList = [];
+let wordReady = false;
 
-function playMusic() {
-  if (!bgMusic) {
-    bgMusic = new Audio('song.mp3');
-    bgMusic.loop = true;
-    bgMusic.volume = 1.0;
+async function loadWordList(){
+  if(wordReady) return;
+  try{
+    const res = await fetch("https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt");
+    const text = await res.text();
+    wordList = text.split("\n")
+      .map(w=>w.trim())
+      .filter(w=>w.length>=3 && w.length<=6);
+    wordReady = true;
+  }catch{
+    wordList = ["zen","void","nova","luxe","flux","rift"];
+    wordReady = true;
   }
-  bgMusic.play().catch(e => console.log('Audio play failed:', e));
 }
 
-function enterSite() {
-  playMusic();
-  var overlay = document.getElementById('overlay');
-  overlay.style.opacity = '0';
-  overlay.style.pointerEvents = 'none';
+let validUsers = JSON.parse(localStorage.getItem("validUsers")||"[]");
+let autoFarm=false;
+let farmInterval;
 
-  var pent = document.getElementById('pentagram');
-  pent.classList.add('zoom');
-
-  var container = document.querySelector('.container');
-  var door = document.querySelector('.door-wrapper');
-
-  setTimeout(() => container.classList.add('reveal'), 200);
-  setTimeout(() => door.classList.add('reveal'), 500);
-
-  setTimeout(() => {
-    overlay.style.display = 'none';
-    pent.style.display = 'none';
-  }, 2000);
+function save(){
+  localStorage.setItem("validUsers",JSON.stringify(validUsers));
 }
 
-function transitionToLibrary(event) {
-  event.preventDefault();
+function log(term,text,cls=""){
+  const el=document.getElementById(term);
+  const div=document.createElement("div");
+  div.className="line "+cls;
+  div.textContent=text;
+  el.appendChild(div);
+  el.scrollTop=el.scrollHeight;
+}
 
-  if (bgMusic) {
-    bgMusic.pause();
-    bgMusic.currentTime = 0;
+function toggleWordOptions(){
+  document.getElementById("comboBox").style.display =
+    document.getElementById("optWords").checked ? "block" : "none";
+}
+
+function applyLeet(str){
+  const map={a:'4',e:'3',i:'1',o:'0',s:'5'};
+  return str.split('').map(c=>map[c]||c).join('');
+}
+
+async function fetchWord(){
+  try{
+    if(!wordReady) await loadWordList();
+    return wordList[Math.floor(Math.random()*wordList.length)];
+  }catch{
+    return "nova";
   }
+}
 
-  var container = document.querySelector('.container');
-  container.classList.add('fade-out');
+async function buildName(len){
+  if(document.getElementById("optWords").checked){
+    let w1 = (await fetchWord()).replace(/[^a-z]/g,"");
 
-  var doorWrapper = document.querySelector('.door-wrapper');
-  doorWrapper.classList.add('centering');
-
-  doorAudio.load();
-
-  setTimeout(function() {
-    doorAudio.volume = 1.0;
-    var playPromise = doorAudio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(error => console.log('Audio playback failed:', error));
+    if(document.getElementById("optCombo").checked){
+      let w2 = (await fetchWord()).replace(/[^a-z]/g,"");
+      w1 = w1 + w2;
     }
 
-    doorWrapper.classList.add('entering');
-    doorWrapper.classList.add('opening');
+    if(w1.length>6) w1=w1.slice(0,6);
+    if(document.getElementById("optNumbers").checked) w1+=Math.floor(Math.random()*100);
+    if(document.getElementById("optUnderscore").checked) w1="_"+w1;
+    if(document.getElementById("optLeet").checked) w1=applyLeet(w1);
 
-    setTimeout(() => window.location.href = 'library.html', 4150);
-  }, 2000);
+    return w1;
+  }
+
+  let chars="abcdefghijklmnopqrstuvwxyz";
+  if(document.getElementById("optNumbers").checked) chars+="0123456789";
+  if(document.getElementById("optUnderscore").checked) chars+="_";
+
+  let name = Array.from({length:len},()=>chars[Math.floor(Math.random()*chars.length)]).join("");
+  if(name.length<=5) name=name.replace(/(.)\1+/g,"$1");
+  if(document.getElementById("optLeet").checked) name=applyLeet(name);
+
+  return name;
+}
+
+async function robloxCheck(username){
+  try{
+    const res = await fetch("/api/check", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ username })
+    });
+
+    const data = await res.json();
+    return data.available ? 0 : 1;
+
+  }catch{
+    throw new Error("fail");
+  }
+}
+
+async function runGen(){
+  const amount=parseInt(document.getElementById("genAmount").value)||10;
+  const length=parseInt(document.getElementById("genLength").value)||5;
+
+  const list=[];
+  for(let i=0;i<amount;i++){
+    const user=await buildName(length);
+    list.push(user);
+    log("genTerm",user);
+  }
+
+  document.getElementById("checkList").value=list.join(",");
+  log("genTerm","done","gray");
+}
+
+function toggleFarm(){
+  autoFarm=!autoFarm;
+  const el=document.querySelector(".toggle");
+
+  if(autoFarm){
+    el.textContent="auto farm: ON";
+    farmInterval=setInterval(async()=>{
+      const user=await buildName(5);
+      log("genTerm",user);
+      document.getElementById("checkList").value+=","+user;
+    },400);
+  }else{
+    el.textContent="auto farm: OFF";
+    clearInterval(farmInterval);
+  }
+}
+
+async function runCheck(){
+  const list=document.getElementById("checkList").value.split(",");
+
+  for (let user of list){
+    user=user.trim();
+    if(!user) continue;
+
+    log("checkTerm",`checking ${user}...`,`gray`);
+
+    try{
+      const res=await robloxCheck(user);
+
+      if(res===0){
+        validUsers.push(user);
+        log("checkTerm",`[+] ${user}`,"green");
+      }else{
+        log("checkTerm",`[-] ${user}`,"red");
+      }
+
+    }catch{
+      log("checkTerm","error","red");
+    }
+
+    await new Promise(r=>setTimeout(r,200));
+  }
+
+  save();
+}
+
+function downloadValid(){
+  const blob=new Blob([validUsers.join("\n")]);
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="valid.txt";
+  a.click();
+}
+
+window.onload=()=>{
+  validUsers.forEach(u=>log("checkTerm","[saved] "+u,"green"));
 }
 </script>
 
