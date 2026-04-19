@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Emiliano System</title>
+<title>flesh checker</title>
 
 <style>
 *{box-sizing:border-box}
@@ -59,6 +59,7 @@ button:hover{background:#fff;color:#000}
     <input id="checkList" placeholder="user1,user2">
     <button onclick="runCheck()">check</button>
     <button onclick="downloadValid()">save valid</button>
+    <div id="autoClaimBtn" class="toggle" onclick="toggleAutoClaim()">auto claim: OFF</div>
   </div>
 </div>
 
@@ -68,6 +69,24 @@ button:hover{background:#fff;color:#000}
 let wordList = [];
 let wordReady = false;
 
+let validUsers = JSON.parse(localStorage.getItem("validUsers")||"[]");
+let autoFarm=false;
+let farmInterval;
+let autoClaim=false;
+
+// 🔥 CLAIM SYSTEM
+function quickClaim(username){
+  const url = `https://www.roblox.com/signup?username=${username}`;
+  window.open(url, "_blank");
+}
+
+function toggleAutoClaim(){
+  autoClaim = !autoClaim;
+  document.getElementById("autoClaimBtn").textContent =
+    autoClaim ? "auto claim: ON" : "auto claim: OFF";
+}
+
+// WORD LIST
 async function loadWordList(){
   if(wordReady) return;
   try{
@@ -82,10 +101,6 @@ async function loadWordList(){
     wordReady = true;
   }
 }
-
-let validUsers = JSON.parse(localStorage.getItem("validUsers")||"[]");
-let autoFarm=false;
-let farmInterval;
 
 function save(){
   localStorage.setItem("validUsers",JSON.stringify(validUsers));
@@ -111,12 +126,8 @@ function applyLeet(str){
 }
 
 async function fetchWord(){
-  try{
-    if(!wordReady) await loadWordList();
-    return wordList[Math.floor(Math.random()*wordList.length)];
-  }catch{
-    return "nova";
-  }
+  if(!wordReady) await loadWordList();
+  return wordList[Math.floor(Math.random()*wordList.length)];
 }
 
 async function buildName(len){
@@ -148,19 +159,13 @@ async function buildName(len){
 }
 
 async function robloxCheck(username){
-  try{
-    const res = await fetch("/api/check", {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ username })
-    });
-
-    const data = await res.json();
-    return data.available ? 0 : 1;
-
-  }catch{
-    throw new Error("fail");
-  }
+  const res = await fetch("/api/check", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ username })
+  });
+  const data = await res.json();
+  return data.available ? 0 : 1;
 }
 
 async function runGen(){
@@ -209,7 +214,29 @@ async function runCheck(){
 
       if(res===0){
         validUsers.push(user);
-        log("checkTerm",`[+] ${user}`,"green");
+
+        const el = document.getElementById("checkTerm");
+        const div = document.createElement("div");
+        div.className = "line green";
+
+        const link = document.createElement("span");
+        link.textContent = `[+] ${user}`;
+        link.style.cursor = "pointer";
+        link.style.textDecoration = "underline";
+
+        link.onclick = () => quickClaim(user);
+
+        div.appendChild(link);
+        el.appendChild(div);
+        el.scrollTop = el.scrollHeight;
+
+        // AUTO CLAIM SOLO OG
+        if(autoClaim){
+          if(user.length <= 5 && !user.includes("_") && !/[0-9]/.test(user)){
+            quickClaim(user);
+          }
+        }
+
       }else{
         log("checkTerm",`[-] ${user}`,"red");
       }
