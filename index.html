@@ -24,7 +24,23 @@ body{margin:0;background:#000;font-family:Consolas,monospace;color:#ddd}
 .gray{color:#777}
 .gold{color:#ffd700;text-shadow:0 0 6px #ffd700}
 
-/* 🔥 TOGGLE SWITCH */
+/* 🔥 INPUT PRO */
+input{
+  width:100%;
+  padding:10px;
+  margin-bottom:8px;
+  background:#050505;
+  border:1px solid #222;
+  color:#00ff99;
+  outline:none;
+  transition:.2s;
+}
+input:focus{
+  border:1px solid #00ff99;
+  box-shadow:0 0 6px #00ff99;
+}
+
+/* 🔥 TOGGLE */
 .switch{
   display:flex;
   justify-content:space-between;
@@ -51,7 +67,6 @@ body{margin:0;background:#000;font-family:Consolas,monospace;color:#ddd}
   top:2px;left:2px;
   transition:.2s;
 }
-
 .switch input:checked + .slider{
   background:#00ff99;
 }
@@ -61,13 +76,29 @@ body{margin:0;background:#000;font-family:Consolas,monospace;color:#ddd}
 }
 
 .controls{padding:12px;border-top:1px solid #111}
-input[type="text"]{width:100%;padding:8px;margin-bottom:6px;background:#000;border:1px solid #222;color:#fff}
-button{width:100%;padding:9px;background:#111;color:#fff;border:1px solid #222;cursor:pointer}
-button:hover{background:#fff;color:#000}
 
-.stats{font-size:12px;padding:6px;background:#050505;color:#00ff99}
+button{
+  width:100%;
+  padding:9px;
+  background:#111;
+  color:#fff;
+  border:1px solid #222;
+  cursor:pointer;
+}
+button:hover{
+  background:#fff;
+  color:#000;
+}
+
+.stats{
+  font-size:12px;
+  padding:6px;
+  background:#050505;
+  color:#00ff99
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -133,7 +164,7 @@ hits: 0 | fails: 0 | rate: 0%
 </div>
 </div>
 
-<!-- TOP 10 -->
+<!-- TOP -->
 <div class="window full">
 <div class="titlebar">C:\\top10.exe</div>
 <div class="terminal" id="topTerm"></div>
@@ -142,10 +173,12 @@ hits: 0 | fails: 0 | rate: 0%
 <!-- LOOKUP -->
 <div class="window full">
 <div class="titlebar">C:\\lookup.exe</div>
+
 <div class="controls">
 <input id="lookupInput" placeholder="username">
 <button onclick="lookupUser()">lookup</button>
 </div>
+
 <div class="terminal" id="lookupTerm"></div>
 </div>
 
@@ -200,7 +233,7 @@ async function runGen(){
   checkList.value=list.join(",");
 }
 
-// SCORE + TOP
+// SCORE
 function scoreUser(u){
   let s=0;
   if(u.length<=3)s+=5;
@@ -211,6 +244,7 @@ function scoreUser(u){
   return s;
 }
 
+// TOP
 function updateTop(user){
   topUsers.push(user);
   topUsers.sort((a,b)=>scoreUser(b)-scoreUser(a));
@@ -225,7 +259,7 @@ function updateTop(user){
   });
 }
 
-// CHECK
+// FILTER
 function passFilters(u){
   if(filterOG.checked && (u.length>5 || /[0-9_]/.test(u))) return false;
   if(filterNoNum.checked && /[0-9]/.test(u)) return false;
@@ -233,6 +267,7 @@ function passFilters(u){
   return true;
 }
 
+// API CHECK
 async function robloxCheck(u){
   const res=await fetch("/api/check",{
     method:"POST",
@@ -243,6 +278,7 @@ async function robloxCheck(u){
   return data.available?0:1;
 }
 
+// CHECKER
 function stopCheck(){ stopRequested=true; }
 
 async function runCheck(){
@@ -253,6 +289,7 @@ async function runCheck(){
 
   for(let user of list){
     if(stopRequested) break;
+
     user=user.trim();
     if(!user||!passFilters(user)) continue;
 
@@ -296,61 +333,52 @@ async function runCheck(){
   checkBtn.disabled=false;
 }
 
-// 🔥 LOOKUP FIX COMPLETO
+// 🔥 LOOKUP FIX REAL
 async function lookupUser(){
-  let u=lookupInput.value.trim();
+  let u=lookupInput.value.trim().toLowerCase();
   if(!u) return;
 
   lookupTerm.innerHTML="";
   log("lookupTerm","loading...","gray");
 
   try{
-    let res=await fetch("https://users.roblox.com/v1/usernames/users",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({usernames:[u]})
-    });
+    let res = await fetch(`https://api.roblox.com/users/get-by-username?username=${u}`);
+    let data = await res.json();
 
-    let data=await res.json();
-    if(!data.data.length){
+    if(!data || !data.Id){
       log("lookupTerm","not found","red");
       return;
     }
 
-    let user=data.data[0];
-    let id=user.id;
+    let id=data.Id;
 
-    // avatar
-    let thumb=await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png`)
-    .then(r=>r.json());
+    let thumb = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png`)
+      .then(r=>r.json());
 
-    let img=thumb.data[0].imageUrl;
+    let img = thumb.data?.[0]?.imageUrl;
 
     let box=document.createElement("div");
 
-    let image=document.createElement("img");
-    image.src=img;
-    image.style.width="60px";
-    image.style.marginBottom="6px";
-    box.appendChild(image);
+    if(img){
+      let image=document.createElement("img");
+      image.src=img;
+      image.style.width="60px";
+      image.style.border="1px solid #222";
+      image.style.marginBottom="8px";
+      box.appendChild(image);
+    }
 
-    let info=[
-      `username: ${user.name}`,
-      `id: ${id}`
-    ];
+    box.innerHTML += `
+      <div>username: ${u}</div>
+      <div>id: ${id}</div>
+    `;
 
-    info.forEach(t=>{
-      let d=document.createElement("div");
-      d.textContent=t;
-      box.appendChild(d);
-    });
-
-    // links
     let roblox=document.createElement("a");
     roblox.href=`https://www.roblox.com/users/${id}/profile`;
     roblox.textContent="open roblox";
     roblox.target="_blank";
     roblox.style.color="#00ff99";
+    roblox.style.display="block";
 
     let roli=document.createElement("a");
     roli.href=`https://www.rolimons.com/player/${id}`;
@@ -365,10 +393,11 @@ async function lookupUser(){
     lookupTerm.appendChild(box);
 
   }catch{
-    log("lookupTerm","error","red");
+    log("lookupTerm","api blocked / error","red");
   }
 }
 
+// SAVE
 function downloadValid(){
   const blob=new Blob([validUsers.join("\n")]);
   const a=document.createElement("a");
