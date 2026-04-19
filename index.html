@@ -24,13 +24,46 @@ body{margin:0;background:#000;font-family:Consolas,monospace;color:#ddd}
 .gray{color:#777}
 .gold{color:#ffd700;text-shadow:0 0 6px #ffd700}
 
+/* 🔥 TOGGLE SWITCH */
+.switch{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:6px 0;
+  font-size:12px;
+}
+.switch input{display:none}
+
+.slider{
+  width:32px;height:16px;
+  background:#222;
+  border-radius:20px;
+  position:relative;
+  cursor:pointer;
+  transition:.2s;
+}
+.slider::before{
+  content:"";
+  position:absolute;
+  width:12px;height:12px;
+  background:#777;
+  border-radius:50%;
+  top:2px;left:2px;
+  transition:.2s;
+}
+
+.switch input:checked + .slider{
+  background:#00ff99;
+}
+.switch input:checked + .slider::before{
+  transform:translateX(16px);
+  background:#000;
+}
+
 .controls{padding:12px;border-top:1px solid #111}
-input{width:100%;padding:8px;margin-bottom:6px;background:#000;border:1px solid #222;color:#fff}
+input[type="text"]{width:100%;padding:8px;margin-bottom:6px;background:#000;border:1px solid #222;color:#fff}
 button{width:100%;padding:9px;background:#111;color:#fff;border:1px solid #222;cursor:pointer}
 button:hover{background:#fff;color:#000}
-
-.options{font-size:12px;margin-bottom:6px}
-.options label{display:block;opacity:0.6}
 
 .stats{font-size:12px;padding:6px;background:#050505;color:#00ff99}
 </style>
@@ -48,11 +81,20 @@ button:hover{background:#fff;color:#000}
 <input id="genAmount" placeholder="amount">
 <input id="genLength" placeholder="length">
 
-<div class="options">
-<label><input type="checkbox" id="optNumbers"> numbers</label>
-<label><input type="checkbox" id="optUnd"> underscore</label>
-<label><input type="checkbox" id="optLeet"> leetspeak</label>
-</div>
+<label class="switch">numbers
+<input type="checkbox" id="optNumbers">
+<span class="slider"></span>
+</label>
+
+<label class="switch">underscore
+<input type="checkbox" id="optUnd">
+<span class="slider"></span>
+</label>
+
+<label class="switch">leetspeak
+<input type="checkbox" id="optLeet">
+<span class="slider"></span>
+</label>
 
 <button onclick="runGen()">run</button>
 </div>
@@ -70,11 +112,20 @@ hits: 0 | fails: 0 | rate: 0%
 <div class="controls">
 <input id="checkList" placeholder="user1,user2">
 
-<div class="options">
-<label><input type="checkbox" id="filterOG"> only OG</label>
-<label><input type="checkbox" id="filterNoNum"> no numbers</label>
-<label><input type="checkbox" id="filterNoUnd"> no underscore</label>
-</div>
+<label class="switch">only OG
+<input type="checkbox" id="filterOG">
+<span class="slider"></span>
+</label>
+
+<label class="switch">no numbers
+<input type="checkbox" id="filterNoNum">
+<span class="slider"></span>
+</label>
+
+<label class="switch">no underscore
+<input type="checkbox" id="filterNoUnd">
+<span class="slider"></span>
+</label>
 
 <button id="checkBtn" onclick="runCheck()">check</button>
 <button onclick="stopCheck()">stop</button>
@@ -101,10 +152,8 @@ hits: 0 | fails: 0 | rate: 0%
 </div>
 
 <script>
-// STATE
 let hits=0,fails=0,checking=false,stopRequested=false;
-let validUsers=[];
-let topUsers=[];
+let validUsers=[],topUsers=[];
 
 // LOG
 function log(term,text,cls=""){
@@ -132,7 +181,6 @@ function randomName(len){
   }
 
   if(optLeet.checked) name=applyLeet(name);
-
   return name;
 }
 
@@ -152,7 +200,7 @@ async function runGen(){
   checkList.value=list.join(",");
 }
 
-// SCORE
+// SCORE + TOP
 function scoreUser(u){
   let s=0;
   if(u.length<=3)s+=5;
@@ -163,15 +211,6 @@ function scoreUser(u){
   return s;
 }
 
-// FILTER
-function passFilters(u){
-  if(filterOG.checked && (u.length>5 || /[0-9_]/.test(u))) return false;
-  if(filterNoNum.checked && /[0-9]/.test(u)) return false;
-  if(filterNoUnd.checked && u.includes("_")) return false;
-  return true;
-}
-
-// TOP 10
 function updateTop(user){
   topUsers.push(user);
   topUsers.sort((a,b)=>scoreUser(b)-scoreUser(a));
@@ -186,14 +225,14 @@ function updateTop(user){
   });
 }
 
-// STATS
-function updateStats(){
-  let total=hits+fails;
-  let rate=total?((hits/total)*100).toFixed(1):0;
-  statsBar.textContent=`hits: ${hits} | fails: ${fails} | rate: ${rate}%`;
+// CHECK
+function passFilters(u){
+  if(filterOG.checked && (u.length>5 || /[0-9_]/.test(u))) return false;
+  if(filterNoNum.checked && /[0-9]/.test(u)) return false;
+  if(filterNoUnd.checked && u.includes("_")) return false;
+  return true;
 }
 
-// API
 async function robloxCheck(u){
   const res=await fetch("/api/check",{
     method:"POST",
@@ -204,16 +243,11 @@ async function robloxCheck(u){
   return data.available?0:1;
 }
 
-// CHECK
-function stopCheck(){
-  stopRequested=true;
-}
+function stopCheck(){ stopRequested=true; }
 
 async function runCheck(){
   if(checking) return;
-  checking=true;
-  stopRequested=false;
-  checkBtn.disabled=true;
+  checking=true; stopRequested=false; checkBtn.disabled=true;
 
   let list=checkList.value.split(",");
 
@@ -228,12 +262,9 @@ async function runCheck(){
       let res=await robloxCheck(user);
 
       if(res===0){
-        hits++;
-        validUsers.push(user);
-        updateTop(user);
+        hits++; validUsers.push(user); updateTop(user);
 
         let score=scoreUser(user);
-
         let div=document.createElement("div");
         div.className="line "+(score>=6?"gold":"green");
 
@@ -255,7 +286,9 @@ async function runCheck(){
       log("checkTerm","error","red");
     }
 
-    updateStats();
+    let total=hits+fails;
+    statsBar.textContent=`hits: ${hits} | fails: ${fails} | rate: ${total?((hits/total)*100).toFixed(1):0}%`;
+
     await new Promise(r=>setTimeout(r,200));
   }
 
@@ -263,7 +296,7 @@ async function runCheck(){
   checkBtn.disabled=false;
 }
 
-// LOOKUP + ROLIMON LINK
+// 🔥 LOOKUP FIX COMPLETO
 async function lookupUser(){
   let u=lookupInput.value.trim();
   if(!u) return;
@@ -279,40 +312,63 @@ async function lookupUser(){
     });
 
     let data=await res.json();
-
     if(!data.data.length){
       log("lookupTerm","not found","red");
       return;
     }
 
-    let id=data.data[0].id;
+    let user=data.data[0];
+    let id=user.id;
 
-    log("lookupTerm",`username: ${u}`,"green");
-    log("lookupTerm",`id: ${id}`,"green");
+    // avatar
+    let thumb=await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png`)
+    .then(r=>r.json());
 
-    // Roblox profile
-    let p=document.createElement("a");
-    p.href=`https://www.roblox.com/users/${id}/profile`;
-    p.textContent="open roblox profile";
-    p.target="_blank";
-    p.style.color="#00ff99";
-    lookupTerm.appendChild(p);
+    let img=thumb.data[0].imageUrl;
 
-    // Rolimon profile
-    let r=document.createElement("a");
-    r.href=`https://www.rolimons.com/player/${id}`;
-    r.textContent="open rolimons profile";
-    r.target="_blank";
-    r.style.color="#ffd700";
-    r.style.display="block";
-    lookupTerm.appendChild(r);
+    let box=document.createElement("div");
+
+    let image=document.createElement("img");
+    image.src=img;
+    image.style.width="60px";
+    image.style.marginBottom="6px";
+    box.appendChild(image);
+
+    let info=[
+      `username: ${user.name}`,
+      `id: ${id}`
+    ];
+
+    info.forEach(t=>{
+      let d=document.createElement("div");
+      d.textContent=t;
+      box.appendChild(d);
+    });
+
+    // links
+    let roblox=document.createElement("a");
+    roblox.href=`https://www.roblox.com/users/${id}/profile`;
+    roblox.textContent="open roblox";
+    roblox.target="_blank";
+    roblox.style.color="#00ff99";
+
+    let roli=document.createElement("a");
+    roli.href=`https://www.rolimons.com/player/${id}`;
+    roli.textContent="open rolimons";
+    roli.target="_blank";
+    roli.style.color="#ffd700";
+    roli.style.display="block";
+
+    box.appendChild(roblox);
+    box.appendChild(roli);
+
+    lookupTerm.appendChild(box);
 
   }catch{
     log("lookupTerm","error","red");
   }
 }
 
-// SAVE
 function downloadValid(){
   const blob=new Blob([validUsers.join("\n")]);
   const a=document.createElement("a");
