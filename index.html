@@ -11,22 +11,35 @@ body{margin:0;background:#000;font-family:Consolas,monospace;color:#ddd}
 .container{display:flex;gap:12px;padding:12px}
 .window{width:50%;background:#0b0b0b;border:1px solid #222;border-radius:6px;overflow:hidden}
 .titlebar{background:#0f0f0f;padding:6px 10px;font-size:12px;color:#888;border-bottom:1px solid #222}
-.terminal{height:260px;overflow-y:auto;padding:12px;font-size:13px;scroll-behavior:smooth}
-.line{margin:2px 0;opacity:0;animation:fadeIn .2s forwards}
-@keyframes fadeIn{to{opacity:1}}
-.green{color:#00ff99}.red{color:#ff4d4d}.gray{color:#777}
-.gold{color:#ffd700;text-shadow:0 0 5px #ffd700}
+.terminal{height:260px;overflow-y:auto;padding:12px;font-size:13px}
+
+/* 🔥 SMOOTH TEXT */
+.line{
+  margin:2px 0;
+  opacity:0;
+  transform:translateY(6px);
+  animation:smoothIn .25s ease forwards;
+}
+@keyframes smoothIn{
+  to{opacity:1;transform:translateY(0)}
+}
+
+.green{color:#00ff99}
+.red{color:#ff4d4d}
+.gray{color:#777}
+.gold{color:#ffd700;text-shadow:0 0 6px #ffd700}
+
 .controls{padding:12px;border-top:1px solid #111}
 input{width:100%;padding:8px;margin-bottom:6px;background:#000;border:1px solid #222;color:#fff}
 button{width:100%;padding:9px;background:#111;color:#fff;border:1px solid #222;cursor:pointer}
 button:hover{background:#fff;color:#000}
+
 .options{font-size:12px;margin-bottom:6px}
 .options label{display:block;opacity:0.6;cursor:pointer}
 .options input{width:auto;margin-right:5px}
-.toggle{font-size:12px;margin-top:6px;opacity:0.6;cursor:pointer}
-.comboBox{display:none;margin-top:5px}
 
-/* 🔥 STATS BAR */
+.toggle{font-size:12px;margin-top:6px;opacity:0.6;cursor:pointer}
+
 .stats{
   font-size:12px;
   padding:6px 10px;
@@ -40,28 +53,18 @@ button:hover{background:#fff;color:#000}
 
 <div class="container">
 
+<!-- GENERATOR -->
 <div class="window">
   <div class="titlebar">C:\\generator.exe</div>
   <div class="terminal" id="genTerm"></div>
   <div class="controls">
     <input id="genAmount" placeholder="amount">
     <input id="genLength" placeholder="length">
-
-    <div class="options">
-      <label><input type="checkbox" id="optWords" onclick="toggleWordOptions()"> english words</label>
-      <div class="comboBox" id="comboBox">
-        <label><input type="checkbox" id="optCombo"> word combos</label>
-      </div>
-      <label><input type="checkbox" id="optNumbers"> numbers</label>
-      <label><input type="checkbox" id="optUnderscore"> underscore</label>
-      <label><input type="checkbox" id="optLeet"> leetspeak</label>
-    </div>
-
     <button onclick="runGen()">run</button>
-    <div class="toggle" onclick="toggleFarm()">auto farm: OFF</div>
   </div>
 </div>
 
+<!-- CHECKER -->
 <div class="window">
   <div class="titlebar">C:\\checker.exe</div>
   <div class="terminal" id="checkTerm"></div>
@@ -73,15 +76,14 @@ button:hover{background:#fff;color:#000}
   <div class="controls">
     <input id="checkList" placeholder="user1,user2">
 
-    <!-- 🔥 FILTROS AVANZADOS -->
     <div class="options">
-      <label><input type="checkbox" id="filterOG"> only OG (clean)</label>
+      <label><input type="checkbox" id="filterOG"> only OG</label>
       <label><input type="checkbox" id="filterNoNum"> no numbers</label>
       <label><input type="checkbox" id="filterNoUnd"> no underscore</label>
-      <label><input type="number" id="maxLen" placeholder="max length (optional)">
     </div>
 
-    <button onclick="runCheck()">check</button>
+    <button id="checkBtn" onclick="runCheck()">check</button>
+    <button onclick="stopCheck()">stop</button>
     <button onclick="downloadValid()">save valid</button>
     <div id="autoClaimBtn" class="toggle" onclick="toggleAutoClaim()">auto claim: OFF</div>
   </div>
@@ -90,102 +92,139 @@ button:hover{background:#fff;color:#000}
 </div>
 
 <script>
+// STATE
 let validUsers = JSON.parse(localStorage.getItem("validUsers")||"[]");
+let hits=0, fails=0;
 let autoClaim=false;
+let checking=false;
+let stopRequested=false;
 
-let hits=0;
-let fails=0;
+// 🔥 LOG
+function log(term,text,cls=""){
+  const el=document.getElementById(term);
+  const div=document.createElement("div");
+  div.className="line "+cls;
+  div.textContent=text;
+  el.appendChild(div);
+  el.scrollTop=el.scrollHeight;
+}
+
+// 🔥 GENERATOR FIX
+function randomName(len){
+  const chars="abcdefghijklmnopqrstuvwxyz";
+  return Array.from({length:len},()=>chars[Math.floor(Math.random()*chars.length)]).join("");
+}
+
+async function runGen(){
+  const amount=parseInt(genAmount.value)||10;
+  const length=parseInt(genLength.value)||5;
+
+  let list=[];
+  for(let i=0;i<amount;i++){
+    let u=randomName(length);
+    list.push(u);
+    log("genTerm",u);
+    await new Promise(r=>setTimeout(r,50)); // smooth typing feel
+  }
+
+  checkList.value=list.join(",");
+  log("genTerm","done","gray");
+}
 
 // 🔥 CLAIM
-function quickClaim(username){
-  window.open(`https://www.roblox.com/signup?username=${username}`, "_blank");
+function quickClaim(u){
+  window.open(`https://www.roblox.com/signup?username=${u}`,"_blank");
 }
 function toggleAutoClaim(){
   autoClaim=!autoClaim;
-  autoClaimBtn.textContent = autoClaim ? "auto claim: ON" : "auto claim: OFF";
+  autoClaimBtn.textContent=autoClaim?"auto claim: ON":"auto claim: OFF";
+}
+
+// 🔥 SCORE
+function scoreUser(u){
+  let s=0;
+  if(u.length<=3)s+=5;
+  else if(u.length==4)s+=4;
+  else if(u.length==5)s+=3;
+  if(!/[0-9]/.test(u))s++;
+  if(!u.includes("_"))s++;
+  return s;
+}
+
+// 🔥 FILTER
+function passFilters(u){
+  if(filterOG.checked && (u.length>5 || /[0-9_]/.test(u))) return false;
+  if(filterNoNum.checked && /[0-9]/.test(u)) return false;
+  if(filterNoUnd.checked && u.includes("_")) return false;
+  return true;
 }
 
 // 🔥 STATS
 function updateStats(){
-  let total = hits+fails;
-  let rate = total ? ((hits/total)*100).toFixed(1) : 0;
-  document.getElementById("statsBar").textContent =
-    `hits: ${hits} | fails: ${fails} | rate: ${rate}%`;
+  let total=hits+fails;
+  let rate=total?((hits/total)*100).toFixed(1):0;
+  statsBar.textContent=`hits: ${hits} | fails: ${fails} | rate: ${rate}%`;
 }
 
-// 🔥 OG SCORE
-function scoreUser(u){
-  let score=0;
-  if(u.length<=3) score+=5;
-  else if(u.length==4) score+=4;
-  else if(u.length==5) score+=3;
-
-  if(!/[0-9]/.test(u)) score+=1;
-  if(!u.includes("_")) score+=1;
-
-  return score; // max 7
-}
-
-// 🔥 FILTROS
-function passFilters(u){
-  if(filterOG.checked){
-    if(u.length>5 || /[0-9_]/.test(u)) return false;
-  }
-  if(filterNoNum.checked && /[0-9]/.test(u)) return false;
-  if(filterNoUnd.checked && u.includes("_")) return false;
-
-  const max = parseInt(maxLen.value);
-  if(max && u.length>max) return false;
-
-  return true;
-}
-
-// 🔥 CHECK
-async function robloxCheck(username){
-  const res = await fetch("/api/check",{
+// 🔥 API
+async function robloxCheck(u){
+  const res=await fetch("/api/check",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({username})
+    body:JSON.stringify({username:u})
   });
   const data=await res.json();
-  return data.available ? 0 : 1;
+  return data.available?0:1;
 }
 
+// 🔥 STOP
+function stopCheck(){
+  stopRequested=true;
+  log("checkTerm","[!] stopped","gray");
+}
+
+// 🔥 CHECKER FIX
 async function runCheck(){
-  const list = checkList.value.split(",");
+
+  if(checking){
+    log("checkTerm","[!] already running","red");
+    return;
+  }
+
+  checking=true;
+  stopRequested=false;
+  checkBtn.disabled=true;
+
+  const list=checkList.value.split(",");
 
   for(let user of list){
-    user=user.trim();
-    if(!user) continue;
 
-    if(!passFilters(user)){
-      continue;
-    }
+    if(stopRequested) break;
+
+    user=user.trim();
+    if(!user || !passFilters(user)) continue;
 
     log("checkTerm",`checking ${user}...`,"gray");
 
     try{
-      const res = await robloxCheck(user);
+      const res=await robloxCheck(user);
 
       if(res===0){
         hits++;
         validUsers.push(user);
 
-        const el = checkTerm;
-        const div = document.createElement("div");
+        const score=scoreUser(user);
 
-        const score = scoreUser(user);
+        const div=document.createElement("div");
+        div.className="line "+(score>=6?"gold":"green");
 
-        div.className = "line " + (score>=6 ? "gold" : "green");
-
-        const link = document.createElement("span");
-        link.textContent = `[${"★".repeat(score)}] ${user}`;
+        const link=document.createElement("span");
+        link.textContent=`[${"★".repeat(score)}] ${user}`;
         link.style.cursor="pointer";
         link.onclick=()=>quickClaim(user);
 
         div.appendChild(link);
-        el.appendChild(div);
-        el.scrollTop=el.scrollHeight;
+        checkTerm.appendChild(div);
 
         if(autoClaim && score>=6){
           quickClaim(user);
@@ -205,18 +244,15 @@ async function runCheck(){
     await new Promise(r=>setTimeout(r,200));
   }
 
+  checking=false;
+  checkBtn.disabled=false;
+
+  log("checkTerm", stopRequested ? "[!] stopped" : "[✓] finished","gray");
+
   localStorage.setItem("validUsers",JSON.stringify(validUsers));
 }
 
-function log(term,text,cls=""){
-  const el=document.getElementById(term);
-  const div=document.createElement("div");
-  div.className="line "+cls;
-  div.textContent=text;
-  el.appendChild(div);
-  el.scrollTop=el.scrollHeight;
-}
-
+// 🔥 SAVE
 function downloadValid(){
   const blob=new Blob([validUsers.join("\n")]);
   const a=document.createElement("a");
