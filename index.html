@@ -8,21 +8,16 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#000;font-family:Consolas,monospace;color:#ddd}
-.container{display:flex;gap:12px;padding:12px}
-.window{width:50%;background:#0b0b0b;border:1px solid #222;border-radius:6px;overflow:hidden}
+.container{display:flex;gap:12px;padding:12px;flex-wrap:wrap}
+
+.window{width:49%;background:#0b0b0b;border:1px solid #222;border-radius:6px;overflow:hidden}
+.full{width:100%}
+
 .titlebar{background:#0f0f0f;padding:6px 10px;font-size:12px;color:#888;border-bottom:1px solid #222}
 .terminal{height:260px;overflow-y:auto;padding:12px;font-size:13px}
 
-/* 🔥 SMOOTH TEXT */
-.line{
-  margin:2px 0;
-  opacity:0;
-  transform:translateY(6px);
-  animation:smoothIn .25s ease forwards;
-}
-@keyframes smoothIn{
-  to{opacity:1;transform:translateY(0)}
-}
+.line{margin:2px 0;opacity:0;transform:translateY(6px);animation:smoothIn .25s ease forwards}
+@keyframes smoothIn{to{opacity:1;transform:translateY(0)}}
 
 .green{color:#00ff99}
 .red{color:#ff4d4d}
@@ -35,18 +30,9 @@ button{width:100%;padding:9px;background:#111;color:#fff;border:1px solid #222;c
 button:hover{background:#fff;color:#000}
 
 .options{font-size:12px;margin-bottom:6px}
-.options label{display:block;opacity:0.6;cursor:pointer}
-.options input{width:auto;margin-right:5px}
+.options label{display:block;opacity:0.6}
 
-.toggle{font-size:12px;margin-top:6px;opacity:0.6;cursor:pointer}
-
-.stats{
-  font-size:12px;
-  padding:6px 10px;
-  background:#050505;
-  border-top:1px solid #111;
-  color:#00ff99;
-}
+.stats{font-size:12px;padding:6px;background:#050505;color:#00ff99}
 </style>
 </head>
 <body>
@@ -55,51 +41,72 @@ button:hover{background:#fff;color:#000}
 
 <!-- GENERATOR -->
 <div class="window">
-  <div class="titlebar">C:\\generator.exe</div>
-  <div class="terminal" id="genTerm"></div>
-  <div class="controls">
-    <input id="genAmount" placeholder="amount">
-    <input id="genLength" placeholder="length">
-    <button onclick="runGen()">run</button>
-  </div>
+<div class="titlebar">C:\\generator.exe</div>
+<div class="terminal" id="genTerm"></div>
+
+<div class="controls">
+<input id="genAmount" placeholder="amount">
+<input id="genLength" placeholder="length">
+
+<div class="options">
+<label><input type="checkbox" id="optNumbers"> numbers</label>
+<label><input type="checkbox" id="optUnd"> underscore</label>
+<label><input type="checkbox" id="optLeet"> leetspeak</label>
+</div>
+
+<button onclick="runGen()">run</button>
+</div>
 </div>
 
 <!-- CHECKER -->
 <div class="window">
-  <div class="titlebar">C:\\checker.exe</div>
-  <div class="terminal" id="checkTerm"></div>
+<div class="titlebar">C:\\checker.exe</div>
+<div class="terminal" id="checkTerm"></div>
 
-  <div class="stats" id="statsBar">
-    hits: 0 | fails: 0 | rate: 0%
-  </div>
+<div class="stats" id="statsBar">
+hits: 0 | fails: 0 | rate: 0%
+</div>
 
-  <div class="controls">
-    <input id="checkList" placeholder="user1,user2">
+<div class="controls">
+<input id="checkList" placeholder="user1,user2">
 
-    <div class="options">
-      <label><input type="checkbox" id="filterOG"> only OG</label>
-      <label><input type="checkbox" id="filterNoNum"> no numbers</label>
-      <label><input type="checkbox" id="filterNoUnd"> no underscore</label>
-    </div>
+<div class="options">
+<label><input type="checkbox" id="filterOG"> only OG</label>
+<label><input type="checkbox" id="filterNoNum"> no numbers</label>
+<label><input type="checkbox" id="filterNoUnd"> no underscore</label>
+</div>
 
-    <button id="checkBtn" onclick="runCheck()">check</button>
-    <button onclick="stopCheck()">stop</button>
-    <button onclick="downloadValid()">save valid</button>
-    <div id="autoClaimBtn" class="toggle" onclick="toggleAutoClaim()">auto claim: OFF</div>
-  </div>
+<button id="checkBtn" onclick="runCheck()">check</button>
+<button onclick="stopCheck()">stop</button>
+<button onclick="downloadValid()">save valid</button>
+</div>
+</div>
+
+<!-- TOP 10 -->
+<div class="window full">
+<div class="titlebar">C:\\top10.exe</div>
+<div class="terminal" id="topTerm"></div>
+</div>
+
+<!-- LOOKUP -->
+<div class="window full">
+<div class="titlebar">C:\\lookup.exe</div>
+<div class="controls">
+<input id="lookupInput" placeholder="username">
+<button onclick="lookupUser()">lookup</button>
+</div>
+<div class="terminal" id="lookupTerm"></div>
 </div>
 
 </div>
 
 <script>
 // STATE
-let validUsers = JSON.parse(localStorage.getItem("validUsers")||"[]");
-let hits=0, fails=0;
-let autoClaim=false;
-let checking=false;
-let stopRequested=false;
+let hits=0,fails=0,checking=false,stopRequested=false;
+let validUsers=[];
+let topUsers=[];
 
-// 🔥 LOG
+// LOG
 function log(term,text,cls=""){
   const el=document.getElementById(term);
   const div=document.createElement("div");
@@ -109,38 +116,43 @@ function log(term,text,cls=""){
   el.scrollTop=el.scrollHeight;
 }
 
-// 🔥 GENERATOR FIX
+// GENERATOR
+function applyLeet(str){
+  return str.replace(/a/g,"4").replace(/e/g,"3").replace(/o/g,"0");
+}
+
 function randomName(len){
-  const chars="abcdefghijklmnopqrstuvwxyz";
-  return Array.from({length:len},()=>chars[Math.floor(Math.random()*chars.length)]).join("");
+  let chars="abcdefghijklmnopqrstuvwxyz";
+  if(optNumbers.checked) chars+="0123456789";
+  if(optUnd.checked) chars+="_";
+
+  let name="";
+  for(let i=0;i<len;i++){
+    name+=chars[Math.floor(Math.random()*chars.length)];
+  }
+
+  if(optLeet.checked) name=applyLeet(name);
+
+  return name;
 }
 
 async function runGen(){
-  const amount=parseInt(genAmount.value)||10;
-  const length=parseInt(genLength.value)||5;
+  genTerm.innerHTML="";
+  let amount=parseInt(genAmount.value)||10;
+  let len=parseInt(genLength.value)||5;
 
   let list=[];
   for(let i=0;i<amount;i++){
-    let u=randomName(length);
+    let u=randomName(len);
     list.push(u);
     log("genTerm",u);
-    await new Promise(r=>setTimeout(r,50)); // smooth typing feel
+    await new Promise(r=>setTimeout(r,40));
   }
 
   checkList.value=list.join(",");
-  log("genTerm","done","gray");
 }
 
-// 🔥 CLAIM
-function quickClaim(u){
-  window.open(`https://www.roblox.com/signup?username=${u}`,"_blank");
-}
-function toggleAutoClaim(){
-  autoClaim=!autoClaim;
-  autoClaimBtn.textContent=autoClaim?"auto claim: ON":"auto claim: OFF";
-}
-
-// 🔥 SCORE
+// SCORE
 function scoreUser(u){
   let s=0;
   if(u.length<=3)s+=5;
@@ -151,7 +163,7 @@ function scoreUser(u){
   return s;
 }
 
-// 🔥 FILTER
+// FILTER
 function passFilters(u){
   if(filterOG.checked && (u.length>5 || /[0-9_]/.test(u))) return false;
   if(filterNoNum.checked && /[0-9]/.test(u)) return false;
@@ -159,14 +171,29 @@ function passFilters(u){
   return true;
 }
 
-// 🔥 STATS
+// TOP 10
+function updateTop(user){
+  topUsers.push(user);
+  topUsers.sort((a,b)=>scoreUser(b)-scoreUser(a));
+  topUsers=topUsers.slice(0,10);
+
+  topTerm.innerHTML="";
+  topUsers.forEach(u=>{
+    const div=document.createElement("div");
+    div.className="line gold";
+    div.textContent=u;
+    topTerm.appendChild(div);
+  });
+}
+
+// STATS
 function updateStats(){
   let total=hits+fails;
   let rate=total?((hits/total)*100).toFixed(1):0;
   statsBar.textContent=`hits: ${hits} | fails: ${fails} | rate: ${rate}%`;
 }
 
-// 🔥 API
+// API
 async function robloxCheck(u){
   const res=await fetch("/api/check",{
     method:"POST",
@@ -177,58 +204,46 @@ async function robloxCheck(u){
   return data.available?0:1;
 }
 
-// 🔥 STOP
+// CHECK
 function stopCheck(){
   stopRequested=true;
-  log("checkTerm","[!] stopped","gray");
 }
 
-// 🔥 CHECKER FIX
 async function runCheck(){
-
-  if(checking){
-    log("checkTerm","[!] already running","red");
-    return;
-  }
-
+  if(checking) return;
   checking=true;
   stopRequested=false;
   checkBtn.disabled=true;
 
-  const list=checkList.value.split(",");
+  let list=checkList.value.split(",");
 
   for(let user of list){
-
     if(stopRequested) break;
-
     user=user.trim();
-    if(!user || !passFilters(user)) continue;
+    if(!user||!passFilters(user)) continue;
 
     log("checkTerm",`checking ${user}...`,"gray");
 
     try{
-      const res=await robloxCheck(user);
+      let res=await robloxCheck(user);
 
       if(res===0){
         hits++;
         validUsers.push(user);
+        updateTop(user);
 
-        const score=scoreUser(user);
+        let score=scoreUser(user);
 
-        const div=document.createElement("div");
+        let div=document.createElement("div");
         div.className="line "+(score>=6?"gold":"green");
 
-        const link=document.createElement("span");
+        let link=document.createElement("span");
         link.textContent=`[${"★".repeat(score)}] ${user}`;
         link.style.cursor="pointer";
-        link.onclick=()=>quickClaim(user);
+        link.onclick=()=>window.open(`https://www.roblox.com/signup?username=${user}`);
 
         div.appendChild(link);
         checkTerm.appendChild(div);
-
-        if(autoClaim && score>=6){
-          quickClaim(user);
-        }
 
       }else{
         fails++;
@@ -246,13 +261,58 @@ async function runCheck(){
 
   checking=false;
   checkBtn.disabled=false;
-
-  log("checkTerm", stopRequested ? "[!] stopped" : "[✓] finished","gray");
-
-  localStorage.setItem("validUsers",JSON.stringify(validUsers));
 }
 
-// 🔥 SAVE
+// LOOKUP + ROLIMON LINK
+async function lookupUser(){
+  let u=lookupInput.value.trim();
+  if(!u) return;
+
+  lookupTerm.innerHTML="";
+  log("lookupTerm","loading...","gray");
+
+  try{
+    let res=await fetch("https://users.roblox.com/v1/usernames/users",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({usernames:[u]})
+    });
+
+    let data=await res.json();
+
+    if(!data.data.length){
+      log("lookupTerm","not found","red");
+      return;
+    }
+
+    let id=data.data[0].id;
+
+    log("lookupTerm",`username: ${u}`,"green");
+    log("lookupTerm",`id: ${id}`,"green");
+
+    // Roblox profile
+    let p=document.createElement("a");
+    p.href=`https://www.roblox.com/users/${id}/profile`;
+    p.textContent="open roblox profile";
+    p.target="_blank";
+    p.style.color="#00ff99";
+    lookupTerm.appendChild(p);
+
+    // Rolimon profile
+    let r=document.createElement("a");
+    r.href=`https://www.rolimons.com/player/${id}`;
+    r.textContent="open rolimons profile";
+    r.target="_blank";
+    r.style.color="#ffd700";
+    r.style.display="block";
+    lookupTerm.appendChild(r);
+
+  }catch{
+    log("lookupTerm","error","red");
+  }
+}
+
+// SAVE
 function downloadValid(){
   const blob=new Blob([validUsers.join("\n")]);
   const a=document.createElement("a");
