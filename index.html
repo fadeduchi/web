@@ -9,106 +9,29 @@
 *{box-sizing:border-box}
 body{margin:0;background:#000;font-family:Consolas,monospace;color:#ddd}
 .container{display:flex;gap:12px;padding:12px;flex-wrap:wrap}
-
 .window{width:49%;background:#0b0b0b;border:1px solid #222;border-radius:6px;overflow:hidden}
 .full{width:100%}
-
 .titlebar{background:#0f0f0f;padding:6px 10px;font-size:12px;color:#888;border-bottom:1px solid #222}
 .terminal{height:260px;overflow-y:auto;padding:12px;font-size:13px}
-
 .line{margin:2px 0;opacity:0;transform:translateY(6px);animation:smoothIn .25s ease forwards}
 @keyframes smoothIn{to{opacity:1;transform:translateY(0)}}
-
 .green{color:#00ff99}
 .red{color:#ff4d4d}
 .gray{color:#777}
 .gold{color:#ffd700;text-shadow:0 0 6px #ffd700}
-
-input{
-  width:100%;
-  padding:10px;
-  margin-bottom:8px;
-  background:#050505;
-  border:1px solid #222;
-  color:#00ff99;
-  outline:none;
-  transition:.2s;
-}
-input:focus{
-  border:1px solid #00ff99;
-  box-shadow:0 0 6px #00ff99;
-}
-
-.switch{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:6px 0;
-  font-size:12px;
-}
+input{width:100%;padding:10px;margin-bottom:8px;background:#050505;border:1px solid #222;color:#00ff99;outline:none}
+.switch{display:flex;justify-content:space-between;align-items:center;margin:6px 0;font-size:12px}
 .switch input{display:none}
-
-.slider{
-  width:32px;height:16px;
-  background:#222;
-  border-radius:20px;
-  position:relative;
-  cursor:pointer;
-}
-.slider::before{
-  content:"";
-  position:absolute;
-  width:12px;height:12px;
-  background:#777;
-  border-radius:50%;
-  top:2px;left:2px;
-}
-.switch input:checked + .slider{
-  background:#00ff99;
-}
-.switch input:checked + .slider::before{
-  transform:translateX(16px);
-  background:#000;
-}
-
-button{
-  width:100%;
-  padding:9px;
-  background:#111;
-  color:#fff;
-  border:1px solid #222;
-  cursor:pointer;
-  transition:.2s;
-}
-button:hover{
-  background:#00ff99;
-  color:#000;
-  box-shadow:0 0 10px #00ff99;
-}
-
+.slider{width:32px;height:16px;background:#222;border-radius:20px;position:relative}
+.slider::before{content:"";position:absolute;width:12px;height:12px;background:#777;border-radius:50%;top:2px;left:2px}
+.switch input:checked + .slider{background:#00ff99}
+.switch input:checked + .slider::before{transform:translateX(16px);background:#000}
+button{width:100%;padding:9px;background:#111;color:#fff;border:1px solid #222;cursor:pointer}
+button:hover{background:#00ff99;color:#000;box-shadow:0 0 10px #00ff99}
 .controls{padding:12px;border-top:1px solid #111}
-
-.stats{
-  font-size:12px;
-  padding:6px;
-  background:#050505;
-  color:#00ff99
-}
-
-.footer{
-  width:100%;
-  text-align:center;
-  font-size:12px;
-  padding:10px;
-  opacity:.6;
-}
-.footer a{
-  color:#00ff99;
-  text-decoration:none;
-}
-.footer a:hover{
-  text-shadow:0 0 6px #00ff99;
-}
+.stats{font-size:12px;padding:6px;background:#050505;color:#00ff99}
+.footer{width:100%;text-align:center;font-size:12px;padding:10px;opacity:.6}
+.footer a{color:#00ff99;text-decoration:none}
 </style>
 </head>
 
@@ -119,26 +42,12 @@ button:hover{
 <div class="window">
 <div class="titlebar">C:\\generator.exe</div>
 <div class="terminal" id="genTerm"></div>
-
 <div class="controls">
 <input id="genAmount" placeholder="amount">
 <input id="genLength" placeholder="length">
-
-<label class="switch">numbers
-<input type="checkbox" id="optNumbers">
-<span class="slider"></span>
-</label>
-
-<label class="switch">underscore
-<input type="checkbox" id="optUnd">
-<span class="slider"></span>
-</label>
-
-<label class="switch">leetspeak
-<input type="checkbox" id="optLeet">
-<span class="slider"></span>
-</label>
-
+<label class="switch">numbers<input type="checkbox" id="optNumbers"><span class="slider"></span></label>
+<label class="switch">underscore<input type="checkbox" id="optUnd"><span class="slider"></span></label>
+<label class="switch">leetspeak<input type="checkbox" id="optLeet"><span class="slider"></span></label>
 <button onclick="runGen()">run</button>
 </div>
 </div>
@@ -146,29 +55,15 @@ button:hover{
 <div class="window">
 <div class="titlebar">C:\\checker.exe</div>
 <div class="terminal" id="checkTerm"></div>
-
-<div class="stats" id="statsBar">
-hits: 0 | fails: 0 | rate: 0%
-</div>
+<div class="stats" id="statsBar">hits: 0 | fails: 0 | rate: 0%</div>
 
 <div class="controls">
 <input id="checkList" placeholder="user1,user2">
 <input id="webhookUrl" placeholder="discord webhook">
 
-<label class="switch">only OG
-<input type="checkbox" id="filterOG">
-<span class="slider"></span>
-</label>
-
-<label class="switch">no numbers
-<input type="checkbox" id="filterNoNum">
-<span class="slider"></span>
-</label>
-
-<label class="switch">no underscore
-<input type="checkbox" id="filterNoUnd">
-<span class="slider"></span>
-</label>
+<label class="switch">only OG<input type="checkbox" id="filterOG"><span class="slider"></span></label>
+<label class="switch">no numbers<input type="checkbox" id="filterNoNum"><span class="slider"></span></label>
+<label class="switch">no underscore<input type="checkbox" id="filterNoUnd"><span class="slider"></span></label>
 
 <button id="checkBtn" onclick="runCheck()">check</button>
 <button onclick="stopCheck()">stop</button>
@@ -208,12 +103,10 @@ function randomName(len){
   let chars="abcdefghijklmnopqrstuvwxyz";
   if(optNumbers.checked) chars+="0123456789";
   if(optUnd.checked) chars+="_";
-
   let name="";
   for(let i=0;i<len;i++){
     name+=chars[Math.floor(Math.random()*chars.length)];
   }
-
   if(optLeet.checked) name=applyLeet(name);
   return name;
 }
@@ -222,7 +115,6 @@ async function runGen(){
   genTerm.innerHTML="";
   let amount=parseInt(genAmount.value)||10;
   let len=parseInt(genLength.value)||5;
-
   let list=[];
   for(let i=0;i<amount;i++){
     let u=randomName(len);
@@ -230,7 +122,6 @@ async function runGen(){
     log("genTerm",u);
     await new Promise(r=>setTimeout(r,40));
   }
-
   checkList.value=list.join(",");
 }
 
@@ -248,7 +139,6 @@ function updateTop(user){
   topUsers.push(user);
   topUsers.sort((a,b)=>scoreUser(b)-scoreUser(a));
   topUsers=topUsers.slice(0,10);
-
   topTerm.innerHTML="";
   topUsers.forEach(u=>{
     const div=document.createElement("div");
@@ -265,15 +155,25 @@ function passFilters(u){
   return true;
 }
 
+/* =======================
+   🔥 FIXED CHECKER ONLY
+======================= */
 async function robloxCheck(u){
   try{
-    let res=await fetch("https://auth.roblox.com/v1/usernames/validate",{
+    const res=await fetch("/api/check",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({username:u,birthday:"2000-01-01"})
+      body:JSON.stringify({username:u})
     });
-    let data=await res.json();
-    return data.code===0?0:1;
+
+    if(!res.ok) return 1;
+
+    const data=await res.json();
+
+    if(!data || typeof data.available !== "boolean") return 1;
+
+    return data.available ? 0 : 1;
+
   }catch{
     return 1;
   }
@@ -282,20 +182,11 @@ async function robloxCheck(u){
 async function sendWebhook(user,score){
   const url=document.getElementById("webhookUrl").value;
   if(!url) return;
-
   try{
-    await fetch(url,{
+    await fetch("/api/webhook",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        username:"flesh checker",
-        avatar_url:"https://i.imgur.com/Gkkp1uH.jpeg",
-        embeds:[{
-          title:"username available",
-          description:user,
-          color:score>=6?16766720:65280
-        }]
-      })
+      body:JSON.stringify({user,score,url})
     });
   }catch{}
 }
@@ -304,12 +195,15 @@ function stopCheck(){ stopRequested=true; }
 
 async function runCheck(){
   if(checking) return;
-  checking=true; stopRequested=false; checkBtn.disabled=true;
+  checking=true;
+  stopRequested=false;
+  document.getElementById("checkBtn").disabled=true;
 
   let list=checkList.value.split(",");
 
   for(let user of list){
     if(stopRequested) break;
+
     user=user.trim();
     if(!user||!passFilters(user)) continue;
 
@@ -318,7 +212,9 @@ async function runCheck(){
     let res=await robloxCheck(user);
 
     if(res===0){
-      hits++; validUsers.push(user); updateTop(user);
+      hits++;
+      validUsers.push(user);
+      updateTop(user);
 
       let score=scoreUser(user);
       sendWebhook(user,score);
@@ -335,7 +231,7 @@ async function runCheck(){
         link.textContent="copied: "+user;
         setTimeout(()=>{
           link.textContent="["+"★".repeat(score)+"] "+user;
-        },900);
+        },800);
       };
 
       div.appendChild(link);
@@ -353,7 +249,7 @@ async function runCheck(){
   }
 
   checking=false;
-  checkBtn.disabled=false;
+  document.getElementById("checkBtn").disabled=false;
 }
 
 function downloadValid(){
