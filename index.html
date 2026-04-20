@@ -155,9 +155,7 @@ function passFilters(u){
   return true;
 }
 
-/* =======================
-   🔥 FIXED CHECKER ONLY
-======================= */
+/* FIXED CHECK */
 async function robloxCheck(u){
   try{
     const res=await fetch("/api/check",{
@@ -169,21 +167,20 @@ async function robloxCheck(u){
     if(!res.ok) return 1;
 
     const data=await res.json();
-
-    if(!data || typeof data.available !== "boolean") return 1;
-
-    return data.available ? 0 : 1;
+    return data?.available ? 0 : 1;
 
   }catch{
     return 1;
   }
 }
 
+/* FIXED WEBHOOK (IMPORTANT CHANGE) */
 async function sendWebhook(user,score){
   const url=document.getElementById("webhookUrl").value;
   if(!url) return;
+
   try{
-    await fetch("/api/webhook",{
+    await fetch("/api/webhook-send",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({user,score,url})
