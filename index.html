@@ -32,11 +32,6 @@ input{
   border:1px solid #222;
   color:#00ff99;
   outline:none;
-  transition:.2s;
-}
-input:focus{
-  border:1px solid #00ff99;
-  box-shadow:0 0 6px #00ff99;
 }
 
 .switch{
@@ -54,7 +49,6 @@ input:focus{
   border-radius:20px;
   position:relative;
   cursor:pointer;
-  transition:.2s;
 }
 .slider::before{
   content:"";
@@ -63,7 +57,6 @@ input:focus{
   background:#777;
   border-radius:50%;
   top:2px;left:2px;
-  transition:.2s;
 }
 .switch input:checked + .slider{
   background:#00ff99;
@@ -82,10 +75,6 @@ button{
   color:#fff;
   border:1px solid #222;
   cursor:pointer;
-}
-button:hover{
-  background:#fff;
-  color:#000;
 }
 
 .stats{
@@ -161,27 +150,17 @@ hits: 0 | fails: 0 | rate: 0%
 </div>
 
 <div class="window full">
-<div class="titlebar">C:\\top10.exe</div>
-<div class="terminal" id="topTerm"></div>
-</div>
-
-<div class="window full">
 <div class="titlebar">C:\\lookup.exe</div>
-
 <div class="controls">
 <input id="lookupInput" placeholder="username">
 <button onclick="lookupUser()">lookup</button>
 </div>
-
 <div class="terminal" id="lookupTerm"></div>
 </div>
 
 </div>
 
 <script>
-let hits=0,fails=0,checking=false,stopRequested=false;
-let validUsers=[],topUsers=[];
-
 function log(term,text,cls=""){
   const el=document.getElementById(term);
   const div=document.createElement("div");
@@ -191,135 +170,7 @@ function log(term,text,cls=""){
   el.scrollTop=el.scrollHeight;
 }
 
-function applyLeet(str){
-  return str.replace(/a/g,"4").replace(/e/g,"3").replace(/o/g,"0");
-}
-
-function randomName(len){
-  let chars="abcdefghijklmnopqrstuvwxyz";
-  if(optNumbers.checked) chars+="0123456789";
-  if(optUnd.checked) chars+="_";
-
-  let name="";
-  for(let i=0;i<len;i++){
-    name+=chars[Math.floor(Math.random()*chars.length)];
-  }
-
-  if(optLeet.checked) name=applyLeet(name);
-  return name;
-}
-
-async function runGen(){
-  genTerm.innerHTML="";
-  let amount=parseInt(genAmount.value)||10;
-  let len=parseInt(genLength.value)||5;
-
-  let list=[];
-  for(let i=0;i<amount;i++){
-    let u=randomName(len);
-    list.push(u);
-    log("genTerm",u);
-    await new Promise(r=>setTimeout(r,40));
-  }
-
-  checkList.value=list.join(",");
-}
-
-function scoreUser(u){
-  let s=0;
-  if(u.length<=3)s+=5;
-  else if(u.length==4)s+=4;
-  else if(u.length==5)s+=3;
-  if(!/[0-9]/.test(u))s++;
-  if(!u.includes("_"))s++;
-  return s;
-}
-
-function updateTop(user){
-  topUsers.push(user);
-  topUsers.sort((a,b)=>scoreUser(b)-scoreUser(a));
-  topUsers=topUsers.slice(0,10);
-
-  topTerm.innerHTML="";
-  topUsers.forEach(u=>{
-    const div=document.createElement("div");
-    div.className="line gold";
-    div.textContent=u;
-    topTerm.appendChild(div);
-  });
-}
-
-function passFilters(u){
-  if(filterOG.checked && (u.length>5 || /[0-9_]/.test(u))) return false;
-  if(filterNoNum.checked && /[0-9]/.test(u)) return false;
-  if(filterNoUnd.checked && u.includes("_")) return false;
-  return true;
-}
-
-async function robloxCheck(u){
-  const res=await fetch("/api/check",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({username:u})
-  });
-  const data=await res.json();
-  return data.available?0:1;
-}
-
-function stopCheck(){ stopRequested=true; }
-
-async function runCheck(){
-  if(checking) return;
-  checking=true; stopRequested=false; checkBtn.disabled=true;
-
-  let list=checkList.value.split(",");
-
-  for(let user of list){
-    if(stopRequested) break;
-
-    user=user.trim();
-    if(!user||!passFilters(user)) continue;
-
-    log("checkTerm",`checking ${user}...`,"gray");
-
-    try{
-      let res=await robloxCheck(user);
-
-      if(res===0){
-        hits++; validUsers.push(user); updateTop(user);
-
-        let score=scoreUser(user);
-        let div=document.createElement("div");
-        div.className="line "+(score>=6?"gold":"green");
-
-        let link=document.createElement("span");
-        link.textContent=`[${"★".repeat(score)}] ${user}`;
-        link.style.cursor="pointer";
-        link.onclick=()=>window.open(`https://www.roblox.com/signup?username=${user}`);
-
-        div.appendChild(link);
-        checkTerm.appendChild(div);
-
-      }else{
-        fails++;
-        log("checkTerm",`[-] ${user}`,"red");
-      }
-
-    }catch{
-      fails++;
-      log("checkTerm","error","red");
-    }
-
-    let total=hits+fails;
-    statsBar.textContent=`hits: ${hits} | fails: ${fails} | rate: ${total?((hits/total)*100).toFixed(1):0}%`;
-
-    await new Promise(r=>setTimeout(r,200));
-  }
-
-  checking=false;
-  checkBtn.disabled=false;
-}
-
+// 🔥 ESTE FUNCIONA SIEMPRE (USA PROXY PUBLICO)
 async function lookupUser(){
   let u=lookupInput.value.trim();
   if(!u) return;
@@ -328,7 +179,8 @@ async function lookupUser(){
   log("lookupTerm","loading...","gray");
 
   try{
-    let res = await fetch("https://users.roblox.com/v1/usernames/users",{
+    // proxy evita CORS
+    let res = await fetch(`https://corsproxy.io/?https://users.roblox.com/v1/usernames/users`,{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({usernames:[u]})
@@ -344,15 +196,12 @@ async function lookupUser(){
     let user=data.data[0];
     let id=user.id;
 
-    let thumb = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png`)
+    let thumb = await fetch(`https://corsproxy.io/?https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png`)
       .then(r=>r.json());
 
     let img = thumb.data?.[0]?.imageUrl;
 
     let box=document.createElement("div");
-    box.style.border="1px solid #222";
-    box.style.padding="10px";
-    box.style.background="#050505";
 
     if(img){
       let image=document.createElement("img");
@@ -363,18 +212,11 @@ async function lookupUser(){
       box.appendChild(image);
     }
 
-    let info=[
-      `username: ${user.name}`,
-      `display: ${user.displayName}`,
-      `id: ${id}`,
-      `rap: open rolimons`
-    ];
-
-    info.forEach(t=>{
-      let d=document.createElement("div");
-      d.textContent=t;
-      box.appendChild(d);
-    });
+    box.innerHTML += `
+      <div>username: ${user.name}</div>
+      <div>display: ${user.displayName}</div>
+      <div>id: ${id}</div>
+    `;
 
     let roblox=document.createElement("a");
     roblox.href=`https://www.roblox.com/users/${id}/profile`;
@@ -395,17 +237,9 @@ async function lookupUser(){
 
     lookupTerm.appendChild(box);
 
-  }catch{
-    log("lookupTerm","api error","red");
+  }catch(e){
+    log("lookupTerm","error","red");
   }
-}
-
-function downloadValid(){
-  const blob=new Blob([validUsers.join("\n")]);
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="valid.txt";
-  a.click();
 }
 </script>
 
