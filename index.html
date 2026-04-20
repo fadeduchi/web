@@ -54,7 +54,6 @@ input:focus{
   border-radius:20px;
   position:relative;
   cursor:pointer;
-  transition:.2s;
 }
 .slider::before{
   content:"";
@@ -63,7 +62,6 @@ input:focus{
   background:#777;
   border-radius:50%;
   top:2px;left:2px;
-  transition:.2s;
 }
 .switch input:checked + .slider{
   background:#00ff99;
@@ -95,13 +93,6 @@ button:hover{
   padding:6px;
   background:#050505;
   color:#00ff99
-}
-
-#ascii{
-  white-space:pre;
-  font-size:10px;
-  color:#00ff99;
-  text-align:center;
 }
 
 .footer{
@@ -162,6 +153,7 @@ hits: 0 | fails: 0 | rate: 0%
 
 <div class="controls">
 <input id="checkList" placeholder="user1,user2">
+<input id="webhookUrl" placeholder="discord webhook">
 
 <label class="switch">only OG
 <input type="checkbox" id="filterOG">
@@ -187,13 +179,6 @@ hits: 0 | fails: 0 | rate: 0%
 <div class="window full">
 <div class="titlebar">C:\\top10.exe</div>
 <div class="terminal" id="topTerm"></div>
-</div>
-
-<div class="window full">
-<div class="titlebar">C:\\visual.exe</div>
-<div class="terminal">
-<div id="ascii"></div>
-</div>
 </div>
 
 </div>
@@ -294,6 +279,27 @@ async function robloxCheck(u){
   }
 }
 
+async function sendWebhook(user,score){
+  const url=document.getElementById("webhookUrl").value;
+  if(!url) return;
+
+  try{
+    await fetch(url,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        username:"flesh checker",
+        avatar_url:"https://i.imgur.com/Gkkp1uH.jpeg",
+        embeds:[{
+          title:"username available",
+          description:user,
+          color:score>=6?16766720:65280
+        }]
+      })
+    });
+  }catch{}
+}
+
 function stopCheck(){ stopRequested=true; }
 
 async function runCheck(){
@@ -315,6 +321,8 @@ async function runCheck(){
       hits++; validUsers.push(user); updateTop(user);
 
       let score=scoreUser(user);
+      sendWebhook(user,score);
+
       let div=document.createElement("div");
       div.className="line "+(score>=6?"gold":"green");
 
@@ -324,10 +332,7 @@ async function runCheck(){
 
       link.onclick=()=>{
         navigator.clipboard.writeText(user);
-
-        link.style.color="#00ff99";
         link.textContent="copied: "+user;
-
         setTimeout(()=>{
           link.textContent="["+"★".repeat(score)+"] "+user;
         },900);
@@ -358,31 +363,6 @@ function downloadValid(){
   a.download="valid.txt";
   a.click();
 }
-
-let frames=[
-`  ◢◣
- ◢██◣
-◥██◤
- ◥◤`,
-`◥◤
-◥██◤
- ◢██◣
-  ◢◣`,
-` ◥◤
-◥██◤
-◢██◣
- ◢◣`,
-` ◢◣
-◢██◣
-◥██◤
- ◥◤`
-];
-
-let f=0;
-setInterval(()=>{
-  ascii.textContent=frames[f];
-  f=(f+1)%frames.length;
-},200);
 </script>
 
 </body>
