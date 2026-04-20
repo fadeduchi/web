@@ -10,20 +10,24 @@ export default async function handler(req, res) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        username: "flesh checker",
+        avatar_url: "https://i.imgur.com/Gkkp1uH.jpeg",
+        content: "",
         embeds: [{
           title: "username available",
-          description: `**${user}**`,
           color: score >= 6 ? 16766720 : 65280,
+          description: `**${user}**`,
           fields: [
             { name: "score", value: String(score), inline: true },
-            { name: "claim", value: `https://www.roblox.com/signup?username=${user}` }
+            { name: "claim", value: `https://www.roblox.com/signup?username=${user}`, inline: false }
           ]
         }]
       })
     });
 
     res.status(200).json({ ok: true });
-  } catch {
-    res.status(200).json({ ok: false });
+
+  } catch (e) {
+    res.status(500).json({ ok: false });
   }
 }
