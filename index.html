@@ -97,31 +97,26 @@ button:hover{
   color:#00ff99
 }
 
-/* MARKET PANEL */
-.market{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-
-.market-item{
-  display:flex;
-  justify-content:space-between;
-  padding:6px;
-  border:1px solid #111;
-  background:#050505;
-  font-size:12px;
-}
-
-.price-up{color:#00ff99}
-.price-down{color:#ff4d4d}
-
-/* ASCII ROTATION */
 #ascii{
   white-space:pre;
   font-size:10px;
   color:#00ff99;
   text-align:center;
+}
+
+.footer{
+  width:100%;
+  text-align:center;
+  font-size:12px;
+  padding:10px;
+  opacity:.6;
+}
+.footer a{
+  color:#00ff99;
+  text-decoration:none;
+}
+.footer a:hover{
+  text-shadow:0 0 6px #00ff99;
 }
 </style>
 </head>
@@ -195,13 +190,16 @@ hits: 0 | fails: 0 | rate: 0%
 </div>
 
 <div class="window full">
-<div class="titlebar">C:\\market_sim.exe</div>
+<div class="titlebar">C:\\visual.exe</div>
 <div class="terminal">
 <div id="ascii"></div>
-<div class="market" id="market"></div>
 </div>
 </div>
 
+</div>
+
+<div class="footer">
+<a href="https://discord.gg/5TNkqETC2v" target="_blank">join discord</a>
 </div>
 
 <script>
@@ -323,7 +321,17 @@ async function runCheck(){
       let link=document.createElement("span");
       link.textContent="["+"★".repeat(score)+"] "+user;
       link.style.cursor="pointer";
-      link.onclick=()=>window.open("https://www.roblox.com/signup?username="+user);
+
+      link.onclick=()=>{
+        navigator.clipboard.writeText(user);
+
+        link.style.color="#00ff99";
+        link.textContent="copied: "+user;
+
+        setTimeout(()=>{
+          link.textContent="["+"★".repeat(score)+"] "+user;
+        },900);
+      };
 
       div.appendChild(link);
       checkTerm.appendChild(div);
@@ -351,33 +359,6 @@ function downloadValid(){
   a.click();
 }
 
-/* MARKET SIM */
-let items=[
-  {name:"short 3L",price:1200},
-  {name:"og 4L",price:800},
-  {name:"clean 5L",price:400},
-  {name:"rare word",price:1500}
-];
-
-function updateMarket(){
-  market.innerHTML="";
-  items.forEach(i=>{
-    let change=(Math.random()*200-100).toFixed(0);
-    i.price+=parseInt(change);
-
-    let div=document.createElement("div");
-    div.className="market-item";
-
-    let color=change>=0?"price-up":"price-down";
-
-    div.innerHTML=`${i.name} <span class="${color}">${i.price}</span>`;
-    market.appendChild(div);
-  });
-}
-
-setInterval(updateMarket,1500);
-
-/* ASCII ROTATION */
 let frames=[
 `  ◢◣
  ◢██◣
