@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MC Mods Hub — free Minecraft mods and clients. cestlamorte.site">
+  <title>MC Mods Hub — cestlamorte.site</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="logo">
+      <span class="logo-icon" aria-hidden="true">◆</span>
+      <span class="logo-text">MC<span class="accent">Mods</span> Hub</span>
+    </div>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#mods">Mods</a>
+      <a href="#faq">FAQ</a>
+      <a href="#install">Install</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <p class="hero-tag mono">cestlamorte.site</p>
+        <h1 class="hero-title">
+          <span id="typewriter" class="typewriter" aria-live="polite"></span>
+          <span class="cursor" aria-hidden="true">|</span>
+        </h1>
+        <p class="hero-subtitle">
+          All your favorite mods and clients in one place. Free, fast, and up to date.
+        </p>
+        <a href="#mods" class="btn btn-primary" id="explore-cta">Browse Downloads</a>
+      </div>
+      <div class="hero-grid" aria-hidden="true"></div>
+    </section>
+
+    <section class="mods-section" id="mods">
+      <div class="section-header">
+        <h2>Available <span class="accent">Mods</span></h2>
+        <p class="section-desc mono">Free downloads — match Fabric version to each mod</p>
+      </div>
+      <div class="mods-grid" id="mods-grid" role="list"></div>
+    </section>
+
+    <section class="faq-section" id="faq">
+      <div class="section-header">
+        <h2>FAQ</h2>
+      </div>
+      <div class="faq-list" id="faq-list"></div>
+    </section>
+
+    <section class="install-section" id="install">
+      <div class="install-card glass">
+        <h2>Installation</h2>
+        <p class="install-intro">Works the same for every mod. Three simple steps.</p>
+        <ol class="install-steps" id="install-steps"></ol>
+        <p class="install-note mono">
+          Press <strong>Right Shift</strong> in-game to open most client GUIs after installing Fabric.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="https://cestlamorte.site" class="footer-link">cestlamorte.site</a> — MC Mods Hub</p>
+    <p class="mono footer-small">Not affiliated with Mojang or Microsoft</p>
+  </footer>
+
+  <div class="modal-overlay" id="modal-overlay" hidden>
+    <div
+      class="modal glass"
+      id="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      tabindex="-1"
+    >
+      <button class="modal-close" id="modal-close" aria-label="Close details">&times;</button>
+      <div class="modal-top-badges">
+        <span class="modal-badge mono" id="modal-category"></span>
+        <span class="status-badge mono" id="modal-status"></span>
+      </div>
+      <h2 id="modal-title"></h2>
+      <p class="modal-size mono" id="modal-size"></p>
+      <div class="modal-preview" id="modal-preview" hidden>
+        <p class="modal-preview-label mono">Mod preview</p>
+        <video
+          id="modal-video"
+          class="modal-video"
+          controls
+          playsinline
+          preload="metadata"
+        ></video>
+        <p class="modal-preview-fallback mono" id="modal-preview-fallback" hidden>
+          Preview video not found. Add your file to the <code>videos/</code> folder (see videos/README.txt).
+        </p>
+      </div>
+      <p class="modal-desc" id="modal-desc"></p>
+      <dl class="modal-meta">
+        <div>
+          <dt class="mono">Type</dt>
+          <dd id="modal-type"></dd>
+        </div>
+        <div>
+          <dt class="mono">Complexity</dt>
+          <dd id="modal-complexity"></dd>
+        </div>
+        <div>
+          <dt class="mono">Compatibility</dt>
+          <dd id="modal-compatibility"></dd>
+        </div>
+      </dl>
+      <div class="modal-install">
+        <h3 class="mono">Installation notes</h3>
+        <p id="modal-install-notes"></p>
+      </div>
+      <button type="button" class="btn btn-download modal-download-btn" id="modal-download" data-mod-id="">
+        Download <span id="modal-download-size"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-overlay download-warning-overlay" id="download-warning-overlay" hidden>
+    <div
+      class="modal glass download-warning-modal"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="download-warning-title"
+      tabindex="-1"
+    >
+      <p class="download-warning-icon" aria-hidden="true">⚠</p>
+      <h2 id="download-warning-title">Before you download</h2>
+      <p class="download-warning-mod mono" id="download-warning-mod"></p>
+      <p class="download-warning-text" id="download-warning-text"></p>
+      <div class="download-warning-actions">
+        <button type="button" class="btn btn-outline" id="download-warning-cancel">Cancel</button>
+        <button type="button" class="btn btn-download" id="download-warning-confirm">
+          Continue download
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
