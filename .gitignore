@@ -1,0 +1,10 @@
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.local
+
+# Originales pesados (opcional: el sitio usa assets/images/web/)
+assets/images/jacinto-arauz-panoramio-4.jpg
+assets/images/jacinto-arauz-panoramio-11.jpg
+assets/images/estacion-historica-1901.jpg

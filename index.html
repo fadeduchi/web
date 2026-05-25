@@ -1,154 +1,854 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-AR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MC Mods Hub — free Minecraft mods and clients. cestlamorte.site">
-  <title>MC Mods Hub — cestlamorte.site</title>
+  <meta name="description" content="Sitio oficial de la Cooperativa de Servicios y Obras Públicas de Jacinto Arauz Ltda. Sede Bernardino Rivadavia 140. Energía eléctrica, agua, telefonía, fibra óptica y servicios públicos en La Pampa.">
+  <meta name="keywords" content="cooperativa, Jacinto Arauz, La Pampa, energía eléctrica, fibra óptica, agua potable, servicios públicos, FEPAMCO">
+  <meta name="author" content="Cooperativa de Servicios y Obras Públicas de Jacinto Arauz Ltda.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.cooparauz.com.ar/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="Sitio Oficial | Cooperativa de Servicios y Obras Públicas — Jacinto Arauz">
+  <meta property="og:description" content="Página oficial de la cooperativa. Sede en Bernardino Rivadavia 140. Emergencias de luz, trámites y servicios para la comunidad.">
+  <meta property="og:url" content="https://www.cooparauz.com.ar/">
+  <meta property="og:site_name" content="Cooperativa de Servicios y Obras Públicas de Jacinto Arauz">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0a3d4a">
+  <meta property="og:image" content="https://www.cooparauz.com.ar/assets/images/web/hero-sede-cooperativa.jpg">
+
+  <title>Sitio Oficial | Cooperativa de Servicios y Obras Públicas de Jacinto Arauz Ltda.</title>
+
+  <link rel="icon" href="assets/favicon-32.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Cooperativa de Servicios y Obras Públicas de Jacinto Arauz Ltda.",
+    "alternateName": ["Coop Arauz", "Cooperativa Jacinto Arauz"],
+    "logo": "https://www.cooparauz.com.ar/assets/logo-cooperativa.png",
+    "image": "https://www.cooparauz.com.ar/assets/images/web/hero-sede-cooperativa.jpg",
+    "url": "https://www.cooparauz.com.ar",
+    "email": "cooparauz@cooparauz.com.ar",
+    "telephone": "+542925493208",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Bernardino Rivadavia 140",
+      "addressLocality": "Jacinto Arauz",
+      "addressRegion": "La Pampa",
+      "postalCode": "2925",
+      "addressCountry": "AR"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Jacinto Arauz"
+    },
+    "memberOf": {
+      "@type": "Organization",
+      "name": "FEPAMCO — Federación Pampeana de Cooperativas de Electricidad y Otros Servicios Públicos"
+    }
+  }
+  </script>
 </head>
 <body>
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
-  <div class="bg-glow" aria-hidden="true"></div>
+  <a class="skip-link" href="#contenido-principal">Saltar al contenido</a>
 
-  <header class="site-header">
-    <div class="logo">
-      <span class="logo-icon" aria-hidden="true">◆</span>
-      <span class="logo-text">MC<span class="accent">Mods</span> Hub</span>
+  <header class="site-header" id="inicio">
+    <div class="header-inner">
+      <a href="#inicio" class="brand" aria-label="Cooperativa Jacinto Arauz — Inicio">
+        <img src="assets/logo-cooperativa.png" alt="Logo Cooperativa de Servicios y Obras Públicas de Jacinto Arauz" width="52" height="52" class="brand-mark">
+        <span class="brand-text">
+          <span class="brand-name">Cooperativa Jacinto Arauz</span>
+          <span class="brand-tag">Sitio oficial · Servicios y Obras Públicas</span>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-principal" aria-label="Abrir menú">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+
+      <nav class="site-nav" id="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="#sede">Sede</a></li>
+          <li><a href="#institucional">Institucional</a></li>
+          <li><a href="#historia">Historia</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#emergencias">Emergencias</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#infraestructura">Infraestructura</a></li>
+          <li><a href="#novedades">Novedades</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+        </ul>
+      </nav>
     </div>
-    <nav class="main-nav" aria-label="Main navigation">
-      <a href="#mods">Mods</a>
-      <a href="#faq">FAQ</a>
-      <a href="#install">Install</a>
-    </nav>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
   </header>
 
-  <main>
-    <section class="hero" id="hero">
-      <div class="hero-content">
-        <p class="hero-tag mono">cestlamorte.site</p>
-        <h1 class="hero-title">
-          <span id="typewriter" class="typewriter" aria-live="polite"></span>
-          <span class="cursor" aria-hidden="true">|</span>
+  <main id="contenido-principal">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-bg" aria-hidden="true">
+        <img class="hero-photo__img" src="assets/images/web/hero-sede-cooperativa.jpg" alt="Sede oficial de la Cooperativa — Bernardino Rivadavia 140, Jacinto Arauz" width="900" height="600" fetchpriority="high">
+        <div class="hero-overlay"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-glow hero-glow--1"></div>
+        <div class="hero-glow hero-glow--2"></div>
+      </div>
+      <div class="container hero-content">
+        <p class="hero-badge reveal">Sitio web oficial</p>
+        <p class="hero-eyebrow reveal">Bernardino Rivadavia 140 · Jacinto Arauz · La Pampa</p>
+        <h1 id="hero-title" class="hero-title reveal">
+          Cooperativa de Servicios<br>
+          y Obras Públicas<br>
+          <em>de Jacinto Arauz Ltda.</em>
         </h1>
-        <p class="hero-subtitle">
-          All your favorite mods and clients in one place. Free, fast, and up to date.
+        <p class="hero-lead reveal">
+          Entidad oficial de servicios públicos de la localidad: energía eléctrica, agua potable,
+          telefonía, internet por fibra óptica y obras para la comunidad. Miembro de FEPAMCO.
+          Más de 55 años al servicio de los vecinos de Jacinto Arauz.
         </p>
-        <a href="#mods" class="btn btn-primary" id="explore-cta">Browse Downloads</a>
+        <div class="hero-actions reveal">
+          <a href="#emergencias" class="btn btn--primary">Emergencias de luz</a>
+          <a href="#sede" class="btn btn--ghost">Visitar nuestra sede</a>
+          <a href="#contacto" class="btn btn--ghost">Contacto y trámites</a>
+        </div>
+        <dl class="hero-stats reveal" aria-label="Datos institucionales destacados">
+          <div>
+            <dt>Desde</dt>
+            <dd>1967</dd>
+          </div>
+          <div>
+            <dt>Energía eléctrica</dt>
+            <dd>Desde 1956</dd>
+          </div>
+          <div>
+            <dt>Red FEPAMCO</dt>
+            <dd>Miembro activo</dd>
+          </div>
+        </dl>
       </div>
-      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-scroll" aria-hidden="true">
+        <span>Desplazar</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </div>
     </section>
 
-    <section class="mods-section" id="mods">
-      <div class="section-header">
-        <h2>Available <span class="accent">Mods</span></h2>
-        <p class="section-desc mono">Free downloads — match Fabric version to each mod</p>
+    <div class="official-bar" role="contentinfo" aria-label="Datos oficiales">
+      <div class="container official-bar__inner">
+        <span><strong>Razón social:</strong> Cooperativa de Servicios y Obras Públicas de Jacinto Arauz Ltda.</span>
+        <span><strong>Sede:</strong> Bernardino Rivadavia 140 — CP 2925</span>
+        <span><strong>Afiliación:</strong> FEPAMCO</span>
+        <a href="tel:+542925493208" class="official-bar__cta">Emergencias: (02925) 493-208</a>
       </div>
-      <div class="mods-grid" id="mods-grid" role="list"></div>
+    </div>
+
+    <section class="section section--sede" id="sede" aria-labelledby="sede-title">
+      <div class="container sede-layout">
+        <div class="sede-media reveal">
+          <div class="sede-media__frame">
+            <img src="assets/images/web/galeria-sede-cooperativa.jpg" alt="Fachada de la sede oficial en Bernardino Rivadavia 140" width="900" height="600" loading="eager">
+          </div>
+          <p class="sede-caption">Sede administrativa y operativa — Bernardino Rivadavia 140, Jacinto Arauz</p>
+        </div>
+        <div class="sede-info reveal">
+          <span class="section-label">Nuestra sede</span>
+          <h2 id="sede-title">El lugar oficial de atención</h2>
+          <p>
+            En Bernardino Rivadavia 140 concentramos la administración, los reclamos de servicios
+            y la atención a asociados y vecinos. Edificio institucional con oficinas, ventanilla
+            de atención y sector operativo para el mantenimiento de redes.
+          </p>
+          <ul class="sede-facts">
+            <li><strong>Dirección:</strong> Bernardino Rivadavia 140, Jacinto Arauz, La Pampa (CP 2925)</li>
+            <li><strong>Teléfonos:</strong> <a href="tel:+542925493208">(02925) 493-208</a> · <a href="tel:+542925493433">493-433</a></li>
+            <li><strong>Celular institucional:</strong> <a href="tel:+54291154614951">(0291) 15-461-4951</a></li>
+            <li><strong>Email:</strong> <a href="mailto:cooparauz@cooparauz.com.ar">cooparauz@cooparauz.com.ar</a></li>
+            <li><strong>Gerencia:</strong> Natacha Ayerza (fuente: La Arena, 2026)</li>
+          </ul>
+          <div class="sede-actions">
+            <a href="https://www.google.com/maps/search/Bernardino+Rivadavia+140,+Jacinto+Arauz,+La+Pampa,+Argentina" class="btn btn--primary" target="_blank" rel="noopener noreferrer">Cómo llegar</a>
+            <a href="#contacto" class="btn btn--ghost-dark">Enviar consulta</a>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="faq-section" id="faq">
-      <div class="section-header">
-        <h2>FAQ</h2>
+    <section class="section section--alt" id="institucional" aria-labelledby="institucional-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Quiénes somos</span>
+          <h2 id="institucional-title">Una cooperativa al servicio de Jacinto Arauz</h2>
+          <p class="section-intro">
+            Entidad de segundo grado integrada a la economía social, dedicada a obras y servicios públicos
+            esenciales para el desarrollo local.
+          </p>
+        </header>
+
+        <div class="institutional-grid">
+          <article class="card card--featured reveal">
+            <h3>Identidad institucional</h3>
+            <p>
+              <strong>Cooperativa de Servicios y Obras Públicas de Jacinto Arauz Ltda.</strong>
+              es la entidad que concentra la prestación de servicios públicos en la localidad,
+              bajo el modelo cooperativo de gestión democrática y participación de asociados-usuarios.
+            </p>
+            <ul class="check-list">
+              <li>Sede administrativa: Bernardino Rivadavia 140, CP 2925</li>
+              <li>Afiliada a <abbr title="Federación Pampeana de Cooperativas de Electricidad y Otros Servicios Públicos">FEPAMCO</abbr></li>
+              <li>Gerencia (2026): Natacha Ayerza — fuente: <em>La Arena</em></li>
+              <li>Correo institucional: <a href="mailto:cooparauz@cooparauz.com.ar">cooparauz@cooparauz.com.ar</a></li>
+              <li>Sitio: <a href="https://www.cooparauz.com.ar" rel="noopener">cooparauz.com.ar</a></li>
+            </ul>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <h3>Misión</h3>
+            <p>
+              Mejorar la calidad de vida de los habitantes de Jacinto Arauz mediante la provisión
+              eficiente, segura y sostenible de servicios públicos esenciales, con transparencia
+              y cercanía con la comunidad.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3>Compromiso local</h3>
+            <p>
+              La cooperativa surge de la unión de esfuerzos vecinales que reemplazaron empresas de lucro
+              en el suministro eléctrico y telefónico, consolidando un modelo donde los beneficios
+              vuelven a la comunidad.
+            </p>
+          </article>
+
+          <article class="card card--highlight reveal">
+            <blockquote>
+              <p>
+                «René Favaloro fue socio fundador de la cooperativa que realizó el tendido de energía
+                eléctrica del pueblo y llevó agua potable a todas las viviendas.»
+              </p>
+              <footer>
+                <cite>Corpico / referencia histórica — Dr. René Favaloro en Jacinto Arauz</cite>
+              </footer>
+            </blockquote>
+          </article>
+        </div>
       </div>
-      <div class="faq-list" id="faq-list"></div>
     </section>
 
-    <section class="install-section" id="install">
-      <div class="install-card glass">
-        <h2>Installation</h2>
-        <p class="install-intro">Works the same for every mod. Three simple steps.</p>
-        <ol class="install-steps" id="install-steps"></ol>
-        <p class="install-note mono">
-          Press <strong>Right Shift</strong> in-game to open most client GUIs after installing Fabric.
-        </p>
+    <section class="section" id="historia" aria-labelledby="historia-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Trayectoria</span>
+          <h2 id="historia-title">Historia de la cooperativa</h2>
+        </header>
+
+        <div class="timeline">
+          <article class="timeline-item reveal">
+            <time datetime="1956">1956</time>
+            <div>
+              <h3>Cooperativa Eléctrica</h3>
+              <p>
+                Ante el servicio a cargo de empresas de lucro, vecinos de Jacinto Arauz, Abramo,
+                Bernasconi y San Martín constituyen cooperativas eléctricas y forman la
+                Asociación de Cooperativas Eléctricas Limitada (ACEL).
+              </p>
+            </div>
+          </article>
+          <article class="timeline-item reveal">
+            <time datetime="1961">1961</time>
+            <div>
+              <h3>Cooperativa Telefónica</h3>
+              <p>Se crea la cooperativa telefónica local para atender las comunicaciones de la comunidad.</p>
+            </div>
+          </article>
+          <article class="timeline-item reveal">
+            <time datetime="1967">1967</time>
+            <div>
+              <h3>Fusión y nueva entidad</h3>
+              <p>
+                La Cooperativa Eléctrica y la Telefónica se unen, dando origen a la
+                <strong>Cooperativa de Servicios y Obras Públicas de Jacinto Arauz Ltda.</strong>
+                El Dr. René Favaloro fue socio fundador y primer presidente de la cooperativa eléctrica,
+                impulsando el tendido de energía y la provisión de agua potable (fuente: Diario de Rivera / Corpico).
+              </p>
+            </div>
+          </article>
+          <article class="timeline-item reveal">
+            <time datetime="1984">1984</time>
+            <div>
+              <h3>Telediscado</h3>
+              <p>Se incorpora el servicio de telediscado, ampliando la conectividad telefónica regional.</p>
+            </div>
+          </article>
+          <article class="timeline-item timeline-item--current reveal">
+            <time datetime="2020">Siglo XXI</time>
+            <div>
+              <h3>Fibra óptica e innovación</h3>
+              <p>
+                La cooperativa despliega su propia red de fibra óptica para internet en el hogar
+                y obtiene licencia para televisión, consolidándose como operador de telecomunicaciones local
+                (fuente: <em>La Arena</em> / Corpico, 2020).
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark" id="servicios" aria-labelledby="servicios-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label section-label--light">Portafolio</span>
+          <h2 id="servicios-title">Servicios que prestamos</h2>
+          <p class="section-intro section-intro--light">
+            Soluciones integrales de infraestructura para hogares, comercios e instituciones de Jacinto Arauz.
+          </p>
+        </header>
+
+        <div class="services-grid">
+          <article class="service-card reveal">
+            <div class="service-card__visual">
+              <img src="assets/images/web/servicio-sede.jpg" alt="Sede oficial Cooperativa — Bernardino Rivadavia 140" loading="lazy" width="800" height="533">
+            </div>
+            <div class="service-card__body">
+              <h3>Energía eléctrica</h3>
+              <p>
+                Distribución del servicio eléctrico bajo gestión cooperativa, afiliada a FEPAMCO.
+                Reclamos y emergencias por los teléfonos institucionales publicados en ESSApp.
+              </p>
+              <a href="#emergencias" class="service-link">Emergencias de luz →</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-card__visual service-card__visual--water" aria-hidden="true"></div>
+            <div class="service-card__body">
+              <h3>Agua potable</h3>
+              <p>
+                Provisión de agua potable a la localidad — legado vinculado al impulso fundacional
+                de la cooperativa junto al tendido eléctrico.
+              </p>
+              <a href="#contacto" class="service-link">Más información →</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-card__visual service-card__visual--phone" aria-hidden="true"></div>
+            <div class="service-card__body">
+              <h3>Telefonía</h3>
+              <p>
+                Servicio telefónico local con más de seis décadas de trayectoria cooperativa,
+                desde la cooperativa telefónica de 1961 hasta la red actual.
+              </p>
+              <a href="#contacto" class="service-link">Contactar →</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-card__visual">
+              <img src="assets/images/web/servicio-fibra.jpg" alt="Jacinto Arauz — infraestructura urbana y redes de servicios" loading="lazy" width="720" height="405">
+            </div>
+            <div class="service-card__body">
+              <h3>Internet — Fibra óptica</h3>
+              <p>
+                Red propia de fibra óptica para internet al hogar. La cooperativa trabaja con Empatel
+                para mejorar el nodo local, incluso ante cortes de energía (La Arena, abril 2026).
+              </p>
+              <a href="#infraestructura" class="service-link">Ver infraestructura →</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-card__visual service-card__visual--tv" aria-hidden="true"></div>
+            <div class="service-card__body">
+              <h3>Televisión</h3>
+              <p>
+                La cooperativa obtuvo licencia de televisión (Corpico / La Arena, 2020).
+                En Jacinto Arauz, el municipio también presta servicio de TV por cable; consulte
+                planes vigentes en administración cooperativa.
+              </p>
+              <a href="#contacto" class="service-link">Consultar disponibilidad →</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-card__visual service-card__visual--community" aria-hidden="true"></div>
+            <div class="service-card__body">
+              <h3>Obras y servicios comunitarios</h3>
+              <p>
+                Gestión de obras públicas y servicios orientados al bien común,
+                en el marco del cooperativismo pampeano.
+              </p>
+              <a href="#institucional" class="service-link">Conocer la cooperativa →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--emergency" id="emergencias" aria-labelledby="emergencias-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label section-label--alert">Atención inmediata</span>
+          <h2 id="emergencias-title">Emergencias y reclamos de servicio</h2>
+          <p class="section-intro">
+            Ante cortes de luz, fallas en la red eléctrica o urgencias en servicios esenciales,
+            utilice los canales oficiales de la cooperativa.
+          </p>
+        </header>
+
+        <div class="emergency-grid reveal">
+          <article class="emergency-card emergency-card--primary">
+            <div class="emergency-card__icon" aria-hidden="true">⚡</div>
+            <h3>Emergencias de luz</h3>
+            <p>Reclamos por interrupciones, cables caídos, chispas o riesgo en la vía pública.</p>
+            <ul class="emergency-phones">
+              <li><a href="tel:+542925493208">(02925) 493-208</a></li>
+              <li><a href="tel:+542925493433">(02925) 493-433</a></li>
+              <li><a href="tel:+54291154614951">Cel. (0291) 15-461-4951</a></li>
+            </ul>
+            <p class="emergency-note">Teléfonos institucionales — ESSApp / FEPAMCO</p>
+          </article>
+
+          <article class="emergency-card">
+            <h3>Administración y trámites</h3>
+            <ul class="emergency-list">
+              <li>Altas, bajas y cambios de titularidad</li>
+              <li>Consultas de facturación y estado de cuenta</li>
+              <li>Reclamos no urgentes de agua y telefonía</li>
+              <li>Solicitud de planes de internet y fibra óptica</li>
+            </ul>
+            <p>Sede: Bernardino Rivadavia 140 · <a href="mailto:cooparauz@cooparauz.com.ar">cooparauz@cooparauz.com.ar</a></p>
+          </article>
+
+          <article class="emergency-card">
+            <h3>Cortes programados</h3>
+            <p>
+              Las tareas de mantenimiento en redes eléctricas pueden requerir interrupciones planificadas.
+              Consulte novedades en sede o por teléfono antes de realizar trabajos con herramientas eléctricas.
+            </p>
+            <p class="emergency-note">La cooperativa coordina con Empatel la continuidad del nodo de conectividad ante cortes de energía.</p>
+          </article>
+        </div>
+
+        <div class="ops-services reveal">
+          <h3 class="ops-title">Servicios que gestiona la cooperativa</h3>
+          <div class="ops-grid">
+            <div class="ops-item"><span>Distribución de energía eléctrica</span></div>
+            <div class="ops-item"><span>Agua potable</span></div>
+            <div class="ops-item"><span>Telefonía fija y telediscado</span></div>
+            <div class="ops-item"><span>Internet por fibra óptica (FTTH)</span></div>
+            <div class="ops-item"><span>Licencia de televisión — consultar planes</span></div>
+            <div class="ops-item"><span>Obras y servicios públicos comunitarios</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="galeria" aria-labelledby="galeria-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Galería institucional</span>
+          <h2 id="galeria-title">Nuestra cooperativa y nuestra comunidad</h2>
+          <p class="section-intro">
+            Imágenes oficiales de la sede en Bernardino Rivadavia 140 y del entorno de Jacinto Arauz,
+            localidad que la cooperativa sirve desde 1967.
+          </p>
+        </header>
+
+        <div class="gallery-grid reveal">
+          <figure class="gallery-item gallery-item--wide gallery-item--featured gallery-item--photo-3x2">
+            <img src="assets/images/web/galeria-sede-cooperativa.jpg" alt="Sede oficial Cooperativa Jacinto Arauz — Bernardino Rivadavia 140" loading="lazy" width="900" height="600">
+            <figcaption><strong>Sede oficial</strong> — Bernardino Rivadavia 140, Jacinto Arauz (foto institucional)</figcaption>
+          </figure>
+          <figure class="gallery-item gallery-item--wide">
+            <img src="assets/images/web/galeria-panorama.jpg" alt="Panorama de Jacinto Arauz, provincia de La Pampa" loading="lazy" width="1280" height="720">
+            <figcaption>Jacinto Arauz, La Pampa — archivo local del sitio (origen: Wikimedia Commons / Panoramio, CC BY 3.0)</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img src="assets/images/web/galeria-estacion-1901.jpg" alt="Estación de Jacinto Arauz, recepción de maquinaria agrícola, circa 1901" loading="lazy" width="960" height="736">
+            <figcaption>Estación ferroviaria, c. 1901 — hoy Museo del Médico Rural Dr. René Favaloro</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img src="assets/images/web/galeria-vista-urbana.jpg" alt="Vista urbana de Jacinto Arauz" loading="lazy" width="960" height="540">
+            <figcaption>Vista de la localidad — archivo local del sitio</figcaption>
+          </figure>
+          <figure class="gallery-item gallery-item--map">
+            <div class="map-embed map-embed--gallery">
+              <iframe
+                title="Mapa Google — Sede Cooperativa, Bernardino Rivadavia 140, Jacinto Arauz"
+                data-mapa-embed
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <figcaption>
+              Sede: Bernardino Rivadavia 140 —
+              <a href="https://www.google.com/maps/search/Bernardino+Rivadavia+140,+Jacinto+Arauz,+La+Pampa,+Argentina" target="_blank" rel="noopener noreferrer">Abrir en Google Maps</a>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="infraestructura" aria-labelledby="infra-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Red y cobertura</span>
+          <h2 id="infra-title">Infraestructura y conectividad</h2>
+        </header>
+
+        <div class="infra-layout">
+          <div class="infra-content reveal">
+            <p>
+              Jacinto Arauz cuenta con una cooperativa que invirtió en tendido de fibra óptica propio
+              para brindar internet directo al hogar, en línea con la tendencia de localidades pampeanas
+              que adoptan FTTH como estándar de conectividad.
+            </p>
+            <ul class="infra-features">
+              <li>
+                <strong>Red de fibra óptica</strong>
+                <span>Infraestructura desplegada por la cooperativa para servicio de internet local.</span>
+              </li>
+              <li>
+                <strong>Licencia de TV</strong>
+                <span>Gestión de licencia de televisión obtenida; consulte planes vigentes en sede.</span>
+              </li>
+              <li>
+                <strong>FEPAMCO</strong>
+                <span>Integración a la federación provincial de cooperativas de electricidad y servicios públicos.</span>
+              </li>
+              <li>
+                <strong>Zona de influencia</strong>
+                <span>Jacinto Arauz y área de concesión cooperativa en el sudoeste de La Pampa.</span>
+              </li>
+            </ul>
+            <p class="source-note">
+              Fuente informativa: <a href="https://www.corpico.com.ar/novedades/478/" rel="noopener noreferrer">Corpico — La Arena, 2020</a>
+            </p>
+          </div>
+          <div class="infra-map reveal" aria-label="Mapa de ubicación de la sede">
+            <div class="map-embed map-embed--infra">
+              <iframe
+                title="Ubicación sede Cooperativa — Bernardino Rivadavia 140, Jacinto Arauz"
+                data-mapa-embed
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <a class="map-link" href="https://www.google.com/maps/search/Bernardino+Rivadavia+140,+Jacinto+Arauz,+La+Pampa,+Argentina" target="_blank" rel="noopener noreferrer">
+              Abrir en Google Maps →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="novedades" aria-labelledby="novedades-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Actualidad</span>
+          <h2 id="novedades-title">Novedades institucionales</h2>
+        </header>
+
+        <div class="news-grid">
+          <article class="news-card reveal">
+            <time datetime="2026-04-05">Abr 2026</time>
+            <h3>Empatel y la cooperativa fortalecen conectividad</h3>
+            <p>
+              Andrés Zulueta (Empatel) se reunió con la gerente Natacha Ayerza y el equipo técnico
+              de la cooperativa, junto al intendente Santiago Goñi, para mejorar el nodo local de
+              conectividad — incluso en situaciones de corte de luz.
+            </p>
+            <a href="https://www.laarena.com.ar/la-pampa/empatel-refuerza-lazos-en-el-sur-provincial-20264512130" class="news-source" rel="noopener noreferrer">La Arena — abril 2026</a>
+          </article>
+          <article class="news-card reveal">
+            <time datetime="2020">2020</time>
+            <h3>Red de fibra óptica e internet al hogar</h3>
+            <p>
+              La cooperativa de Jacinto Arauz opera con red propia de fibra óptica para internet
+              y ha obtenido licencia de televisión, posicionándose entre las entidades pampeanas
+              con infraestructura de telecomunicaciones desplegada.
+            </p>
+            <a href="https://www.corpico.com.ar/novedades/478/" class="news-source" rel="noopener noreferrer">Leer en Corpico / La Arena</a>
+          </article>
+          <article class="news-card reveal">
+            <time datetime="2020">2020</time>
+            <h3>Empatel y el ecosistema cooperativo pampeano</h3>
+            <p>
+              En el marco de la constitución de la Empresa Pampeana de Telecomunicaciones (Empatel),
+              el consejo de administración de la cooperativa evaluó su participación junto a otras
+              entidades de la provincia vinculadas a FEPAMCO.
+            </p>
+            <a href="https://www.corpico.com.ar/novedades/478/" class="news-source" rel="noopener noreferrer">Nota de referencia</a>
+          </article>
+          <article class="news-card reveal">
+            <time datetime="2023">2023</time>
+            <h3>Legado del Dr. Favaloro</h3>
+            <p>
+              Télam y medios cooperativos reivindican el vínculo del cirujano René Favaloro con
+              Jacinto Arauz y su rol como socio fundador en el tendido eléctrico y el agua potable.
+            </p>
+            <a href="https://www.corpico.com.ar/novedades/1625/" class="news-source" rel="noopener noreferrer">Corpico — Favaloro y el cooperativismo</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section stats-band" aria-label="Cifras históricas">
+      <div class="container stats-grid reveal">
+        <div class="stat">
+          <span class="stat-value" data-count="59">0</span>
+          <span class="stat-suffix">+</span>
+          <span class="stat-label">Años como cooperativa unificada (desde 1967)</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" data-count="70">0</span>
+          <span class="stat-suffix">+</span>
+          <span class="stat-label">Años de gestión eléctrica cooperativa (desde 1956)</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">6</span>
+          <span class="stat-label">Líneas de servicio esenciales</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">1</span>
+          <span class="stat-label">Comunidad, un solo compromiso</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="transparencia" aria-labelledby="transparencia-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Información pública</span>
+          <h2 id="transparencia-title">Transparencia y trámites</h2>
+        </header>
+        <div class="transparency-grid reveal">
+          <div class="transparency-block">
+            <h3>Atención al asociado</h3>
+            <p>Trámites de alta, baja, reclamos y consultas comerciales en sede administrativa.</p>
+          </div>
+          <div class="transparency-block">
+            <h3>Reclamos de servicio</h3>
+            <p>
+              Comunicarse telefónicamente al <a href="tel:+542925493208">(02925) 493-208</a> o
+              <a href="tel:+542925493433">493-433</a> para urgencias relacionadas con energía, agua o conectividad.
+            </p>
+          </div>
+          <div class="transparency-block">
+            <h3>Documentación</h3>
+            <p>
+              Estatuto social, balances y actas de asamblea: solicitar copia en administración o
+              consultar en asambleas ordinarias de asociados.
+            </p>
+          </div>
+          <div class="transparency-block">
+            <h3>Enlaces útiles</h3>
+            <ul class="link-list">
+              <li><a href="https://www.essapp.coop/cooperativa-de-servicios-y-obras-publicas-de-jacinto-arauz-ltda/sede-cooperativa-de-servicios-y" rel="noopener noreferrer">Registro ESSApp (FEPAMCO)</a></li>
+              <li><a href="https://www2.inaes.gob.ar/Webinaes/BusquedaEntidades/Index" rel="noopener noreferrer">Registro INAES</a></li>
+              <li><a href="mailto:cooparauz@cooparauz.com.ar">cooparauz@cooparauz.com.ar</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="faq" aria-labelledby="faq-title">
+      <div class="container container--narrow">
+        <header class="section-header reveal">
+          <span class="section-label">Preguntas frecuentes</span>
+          <h2 id="faq-title">FAQ</h2>
+        </header>
+        <div class="faq-list reveal" role="list">
+          <details class="faq-item">
+            <summary>¿Dónde está la sede de la cooperativa?</summary>
+            <p>Bernardino Rivadavia 140, CP 2925, Jacinto Arauz, provincia de La Pampa (fuente: ESSApp / FEPAMCO).</p>
+          </details>
+          <details class="faq-item">
+            <summary>¿Cuáles son los teléfonos de contacto?</summary>
+            <p>
+              Fijo: <a href="tel:+542925493208">(02925) 493-208</a> y <a href="tel:+542925493433">493-433</a>.
+              Celular institucional: <a href="tel:+54291154614951">(0291) 15-461-4951</a>.
+            </p>
+          </details>
+          <details class="faq-item">
+            <summary>¿La cooperativa ofrece internet por fibra óptica?</summary>
+            <p>
+              Sí. Según información pública de medios cooperativos (Corpico / La Arena, 2020),
+              la entidad cuenta con red propia de fibra óptica para internet al hogar.
+              Consulte planes y cobertura en administración.
+            </p>
+          </details>
+          <details class="faq-item">
+            <summary>¿Cuándo se fundó la cooperativa actual?</summary>
+            <p>
+              En 1967, producto de la unión de la Cooperativa Eléctrica (1956) y la Cooperativa Telefónica (1961).
+            </p>
+          </details>
+          <details class="faq-item">
+            <summary>¿A quién llamo ante una emergencia de luz?</summary>
+            <p>
+              Comuníquese de inmediato al <a href="tel:+542925493208">(02925) 493-208</a>,
+              <a href="tel:+542925493433">493-433</a> o al celular institucional
+              <a href="tel:+54291154614951">(0291) 15-461-4951</a> (teléfonos publicados en ESSApp).
+            </p>
+          </details>
+          <details class="faq-item">
+            <summary>¿Cómo consulto horarios de atención?</summary>
+            <p>
+              Los horarios pueden variar según temporada y sector. Comuníquese al
+              <a href="tel:+542925493208">(02925) 493-208</a> antes de concurrir a la sede.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--contact" id="contacto" aria-labelledby="contacto-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Contacto</span>
+          <h2 id="contacto-title">Estamos para ayudarte</h2>
+        </header>
+
+        <div class="contact-layout">
+          <div class="contact-info reveal">
+            <address>
+              <p class="contact-label">Sede administrativa</p>
+              <p>Bernardino Rivadavia 140<br>2925 Jacinto Arauz<br>La Pampa, Argentina</p>
+            </address>
+            <ul class="contact-list">
+              <li>
+                <span>Teléfono</span>
+                <a href="tel:+542925493208">(02925) 493-208</a>
+              </li>
+              <li>
+                <span>Teléfono</span>
+                <a href="tel:+542925493433">(02925) 493-433</a>
+              </li>
+              <li>
+                <span>Celular</span>
+                <a href="tel:+54291154614951">(0291) 15-461-4951</a>
+              </li>
+               <li>
+                <span>Instagram</span>
+                <a href="https://www.instagram.com/cosopja/">@cosopja</a>
+              </li>
+              <li>
+                <span>Facebook</span>
+                <a href="https://www.facebook.com/cooparauz/">@cooparauz</a>
+              </li>
+              <li>
+                <span>Email</span>
+                <a href="mailto:cooparauz@cooparauz.com.ar">cooparauz@cooparauz.com.ar</a>
+              </li>
+            </ul>
+            <p class="contact-note">
+              <strong>Horarios:</strong> consulte telefónicamente los horarios de atención vigentes en administración.
+            </p>
+          </div>
+
+          <form class="contact-form reveal" id="contact-form" novalidate>
+            <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+
+            <div class="form-row">
+              <label for="nombre">Nombre y apellido <span aria-hidden="true">*</span></label>
+              <input type="text" id="nombre" name="nombre" required autocomplete="name" maxlength="120">
+            </div>
+
+            <div class="form-row">
+              <label for="email">Correo electrónico <span aria-hidden="true">*</span></label>
+              <input type="email" id="email" name="email" required autocomplete="email" maxlength="120">
+            </div>
+
+            <div class="form-row">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" autocomplete="tel" maxlength="30">
+            </div>
+
+            <div class="form-row">
+              <label for="asunto">Asunto <span aria-hidden="true">*</span></label>
+              <select id="asunto" name="asunto" required>
+                <option value="">Seleccionar…</option>
+                <option value="Energía eléctrica">Energía eléctrica</option>
+                <option value="Agua potable">Agua potable</option>
+                <option value="Telefonía">Telefonía</option>
+                <option value="Internet / Fibra óptica">Internet / Fibra óptica</option>
+                <option value="Televisión">Televisión</option>
+                <option value="Trámites administrativos">Trámites administrativos</option>
+                <option value="Reclamo">Reclamo de servicio</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="mensaje">Mensaje <span aria-hidden="true">*</span></label>
+              <textarea id="mensaje" name="mensaje" rows="5" required maxlength="3000"></textarea>
+            </div>
+
+            <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <button type="submit" class="btn btn--primary btn--full" id="submit-btn">
+              <span class="btn-text">Enviar mensaje</span>
+              <span class="btn-loader" hidden aria-hidden="true"></span>
+            </button>
+            <p class="form-privacy">
+              Al enviar, su consulta será remitida a <strong>cooparauz@cooparauz.com.ar</strong>.
+              Responderemos a la brevedad posible.
+            </p>
+          </form>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p><a href="https://cestlamorte.site" class="footer-link">cestlamorte.site</a> — MC Mods Hub</p>
-    <p class="mono footer-small">Not affiliated with Mojang or Microsoft</p>
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logo-cooperativa.png" alt="Logo Cooperativa Jacinto Arauz" width="48" height="48">
+        <div>
+          <p class="footer-name">Cooperativa de Servicios y Obras Públicas de Jacinto Arauz Ltda.</p>
+          <p class="footer-meta">Bernardino Rivadavia 140 · Jacinto Arauz · La Pampa</p>
+        </div>
+      </div>
+      <nav class="footer-nav" aria-label="Enlaces del pie">
+        <a href="#sede">Sede</a>
+        <a href="#institucional">Institucional</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#emergencias">Emergencias</a>
+        <a href="#galeria">Galería</a>
+        <a href="#contacto">Contacto</a>
+        <a href="https://www.essapp.coop/cooperativa-de-servicios-y-obras-publicas-de-jacinto-arauz-ltda/sede-cooperativa-de-servicios-y" rel="noopener noreferrer">FEPAMCO / ESSApp</a>
+      </nav>
+      <p class="footer-copy">
+        © <span id="year"></span> Cooperativa de Servicios y Obras Públicas de Jacinto Arauz Ltda.
+        Sitio web oficial · Bernardino Rivadavia 140, Jacinto Arauz, La Pampa.
+        Todos los derechos reservados.
+      </p>
+    </div>
   </footer>
 
-  <div class="modal-overlay" id="modal-overlay" hidden>
-    <div
-      class="modal glass"
-      id="modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
-      tabindex="-1"
-    >
-      <button class="modal-close" id="modal-close" aria-label="Close details">&times;</button>
-      <div class="modal-top-badges">
-        <span class="modal-badge mono" id="modal-category"></span>
-        <span class="status-badge mono" id="modal-status"></span>
-      </div>
-      <h2 id="modal-title"></h2>
-      <p class="modal-size mono" id="modal-size"></p>
-      <div class="modal-preview" id="modal-preview" hidden>
-        <p class="modal-preview-label mono">Mod preview</p>
-        <video
-          id="modal-video"
-          class="modal-video"
-          controls
-          playsinline
-          preload="metadata"
-        ></video>
-        <p class="modal-preview-fallback mono" id="modal-preview-fallback" hidden>
-          Preview video not found. Add your file to the <code>videos/</code> folder (see videos/README.txt).
-        </p>
-      </div>
-      <p class="modal-desc" id="modal-desc"></p>
-      <dl class="modal-meta">
-        <div>
-          <dt class="mono">Type</dt>
-          <dd id="modal-type"></dd>
-        </div>
-        <div>
-          <dt class="mono">Complexity</dt>
-          <dd id="modal-complexity"></dd>
-        </div>
-        <div>
-          <dt class="mono">Compatibility</dt>
-          <dd id="modal-compatibility"></dd>
-        </div>
-      </dl>
-      <div class="modal-install">
-        <h3 class="mono">Installation notes</h3>
-        <p id="modal-install-notes"></p>
-      </div>
-      <button type="button" class="btn btn-download modal-download-btn" id="modal-download" data-mod-id="">
-        Download <span id="modal-download-size"></span>
-      </button>
-    </div>
-  </div>
-
-  <div class="modal-overlay download-warning-overlay" id="download-warning-overlay" hidden>
-    <div
-      class="modal glass download-warning-modal"
-      role="alertdialog"
-      aria-modal="true"
-      aria-labelledby="download-warning-title"
-      tabindex="-1"
-    >
-      <p class="download-warning-icon" aria-hidden="true">⚠</p>
-      <h2 id="download-warning-title">Before you download</h2>
-      <p class="download-warning-mod mono" id="download-warning-mod"></p>
-      <p class="download-warning-text" id="download-warning-text"></p>
-      <div class="download-warning-actions">
-        <button type="button" class="btn btn-outline" id="download-warning-cancel">Cancel</button>
-        <button type="button" class="btn btn-download" id="download-warning-confirm">
-          Continue download
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <script src="js/script.js"></script>
+  <script src="js/datos.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/contact.js" type="module"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

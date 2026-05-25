@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Mapa esquem�tico de la sede en Jacinto Arauz">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dce8ec"/>
+      <stop offset="100%" stop-color="#b8d4dc"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <path d="M0 320 Q200 280 400 300 T800 290 L800 500 L0 500 Z" fill="#9ec4b0" opacity=".55"/>
+  <path d="M0 360 Q250 330 500 350 T800 340 L800 500 L0 500 Z" fill="#7aa892" opacity=".4"/>
+  <g transform="translate(400 220)">
+    <path d="M0-48 C-26-48 -42-30 -42-12 C-42 18 0 52 0 52 C0 52 42 18 42-12 C42-30 26-48 0-48Z" fill="#b42318"/>
+    <circle cy="-18" r="14" fill="#fff"/>
+  </g>
+  <text x="400" y="400" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" font-weight="700" fill="#0a3d4a">Bernardino Rivadavia 140</text>
+  <text x="400" y="430" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#1a2e35">Jacinto Arauz � La Pampa � CP 2925</text>
+  <text x="400" y="462" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#5a7179">Clic para abrir en Google Maps</text>
+</svg>
